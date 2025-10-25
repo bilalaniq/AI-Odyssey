@@ -8,9 +8,9 @@ In simple terms:
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 - [🤖 Artificial Intelligence (AI)](#-artificial-intelligence-ai)
-  - [📚 Table of Contents](#-table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Key Abilities of AI](#key-abilities-of-ai)
   - [⚙️ Key Aspects of AI](#️-key-aspects-of-ai)
     - [1. **Perception**](#1-perception)
@@ -23,7 +23,7 @@ In simple terms:
   - [2. 📊 Statistical AI (Machine Learning)](#2--statistical-ai-machine-learning)
   - [3. 🧠 Connectionist AI (Neural Networks)](#3--connectionist-ai-neural-networks)
   - [4. 🧬 Evolutionary AI (Genetic Algorithms)](#4--evolutionary-ai-genetic-algorithms)
-  - [🧾 Summary](#-summary)
+  - [Comparison of AI Approaches](#comparison-of-ai-approaches)
 
 ---
 
@@ -142,15 +142,16 @@ AI-driven stock trading systems that evolve strategies over time.
 > **Think of it as:** AI that *evolves the best answer* rather than learning directly from data.
 
 ---
+## Comparison of AI Approaches
 
-## 🧾 Summary
+| **Feature**       | **Symbolic AI** | **Statistical AI**        | **Connectionist AI** | **Evolutionary AI**     |
+| ----------------- | --------------- | ------------------------- | -------------------- | ----------------------- |
+| **Approach**      | Rule-based      | Data-driven               | Brain-inspired       | Nature-inspired         |
+| **Learning Type** | No learning     | Supervised / Unsupervised | Deep Learning        | Evolutionary Learning   |
+| **Strengths**     | Explainability  | Generalization            | Pattern Recognition  | Optimization            |
+| **Weaknesses**    | Scalability     | Data Dependency           | Black-box Nature     | High Computational Cost |
+| **Example**       | Expert Systems  | Spam Filters              | Face Recognition     | Stock Trading           |
 
-| **Approach** | **Core Idea** | **Example** |
-|---------------|----------------|--------------|
-| **Symbolic AI** | Logic and rules | Expert systems |
-| **Statistical AI** | Data-driven learning | Spam filter |
-| **Connectionist AI** | Neural networks | Face recognition |
-| **Evolutionary AI** | Optimization via evolution | Stock trading |
 
 ---
 
