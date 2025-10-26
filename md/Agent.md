@@ -43,6 +43,8 @@ It **perceives** the environment through *sensors* and **acts** on the environme
     - [**PEAS – Components of a Task Environment**](#peas--components-of-a-task-environment)
     - [**Properties and Examples of Task Environments**](#properties-and-examples-of-task-environments)
 - [**Types of Agents**](#types-of-agents)
+  - [**Simple reflex agent:**](#simple-reflex-agent)
+    - [**Simple Reflex Agent: Strengths and Weaknesses**](#simple-reflex-agent-strengths-and-weaknesses)
 
 ---
 
@@ -144,4 +146,60 @@ To describe a task environment, we use the **PEAS framework**:
 
 ![types of agent](https://csveda.com/wp-content/uploads/2021/07/AI-Agents-Types.jpg)
 
+## **Simple reflex agent:**
+
+A **Simple Reflex Agent** is the **most basic type of intelligent agent** in Artificial Intelligence.
+It **acts only based on the current percept (input from sensors)** — without considering the history of previous percepts.
+
 ---
+
+* The agent **perceives** the environment through its sensors.
+* It uses a set of **condition–action rules** (also called **if–then rules**) to decide what to do.
+* It performs the **corresponding action** through its actuators.
+
+> **Rule format:**
+> *If condition is true → then perform action.*
+
+The agent **does not store past information** and **cannot learn or plan** ahead.
+
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20240513180031/ai3-1.webp" alt="AGENTFLOW" width="700">
+
+
+Example: A vacuum cleaner **sucks dirt if the square is dirty**, otherwise **moves to the next square**.
+It **does not remember the past** or consider future consequences.
+
+
+### **Simple Reflex Agent: Strengths and Weaknesses**
+
+**Strengths:**
+
+* Simple and easy to implement
+* Fast and efficient
+* Works well in well-defined, fully observable environments
+
+**Weaknesses:**
+
+* Limited adaptability
+* Cannot learn from experience
+* Requires a fully observable environment
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+---
+ 
