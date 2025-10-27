@@ -45,6 +45,10 @@ It **perceives** the environment through *sensors* and **acts** on the environme
 - [**Types of Agents**](#types-of-agents)
   - [**Simple reflex agent:**](#simple-reflex-agent)
     - [**Simple Reflex Agent: Strengths and Weaknesses**](#simple-reflex-agent-strengths-and-weaknesses)
+  - [**Model-Based Reflex Agent**](#model-based-reflex-agent)
+    - [**Model-Based Reflex Agent: Strengths and Weaknesses**](#model-based-reflex-agent-strengths-and-weaknesses)
+  - [**Goal-Based Agent**](#goal-based-agent)
+    - [**Goal-Based Agent: Strengths and Weaknesses**](#goal-based-agent-strengths-and-weaknesses)
 
 ---
 
@@ -151,8 +155,6 @@ To describe a task environment, we use the **PEAS framework**:
 A **Simple Reflex Agent** is the **most basic type of intelligent agent** in Artificial Intelligence.
 It **acts only based on the current percept (input from sensors)** — without considering the history of previous percepts.
 
----
-
 * The agent **perceives** the environment through its sensors.
 * It uses a set of **condition–action rules** (also called **if–then rules**) to decide what to do.
 * It performs the **corresponding action** through its actuators.
@@ -166,7 +168,7 @@ The agent **does not store past information** and **cannot learn or plan** ahead
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240513180031/ai3-1.webp" alt="AGENTFLOW" width="700">
 
 
-Example: A vacuum cleaner **sucks dirt if the square is dirty**, otherwise **moves to the next square**.
+> Example: A vacuum cleaner **sucks dirt if the square is dirty**, otherwise **moves to the next square**.
 It **does not remember the past** or consider future consequences.
 
 
@@ -187,19 +189,102 @@ It **does not remember the past** or consider future consequences.
 
 ---
 
+## **Model-Based Reflex Agent**
+
+A **Model-Based Reflex Agent** is an improved version of the **Simple Reflex Agent**.
+It can handle **partially observable environments** by keeping track of **some internal state** — a model of the world — to remember past information.
+
+* The agent maintains an **internal model** that represents the **current state of the world**.
+* It updates this model based on **percepts (sensor inputs)** and **actions taken**.
+* Decisions are still based on **condition–action rules**, but now these rules can depend on both **current percepts** and the **internal state**.
+
+
+| **Feature**                 | **Description**                                                   |
+| --------------------------- | ----------------------------------------------------------------- |
+| **Memory**                  | Maintains internal state to track unseen parts of the environment |
+| **Learning**                | Limited; can update internal model but not improve rules          |
+| **Environment Suitability** | Works in **partially observable** and **dynamic** environments    |
+| **Example**                 | Advanced vacuum cleaner, simple mobile robot                      |
 
 
 
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/art1.png" alt="AGENTFLOW" width="700">
 
 
 
-
+> Example: If the vacuum can’t see both rooms at once, it remembers which one was cleaned before:
+>
+> * If current square is dirty → **Suck dirt**
+> 
+> * If current square is clean and left room was dirty before → **Move left**
+> 
+> * Otherwise → **Move right**
 
 
 
 ---
 
+### **Model-Based Reflex Agent: Strengths and Weaknesses**
 
+**Strengths:**
+
+* Works in partially observable environments
+* Keeps track of unobserved information using memory
+
+**Weaknesses:**
+
+* More complex to design
+* The agent’s performance relies heavily on the accuracy of its internal model
+* Still limited in learning and adaptability
 
 ---
+
+## **Goal-Based Agent**
+
+A **Goal-Based Agent** is a more advanced type of intelligent agent that makes decisions not just based on current conditions, but also on a **desired goal or outcome** it wants to achieve.
+
+* The agent uses its **percepts** (inputs) and **internal model** of the world.
+* It checks what **actions** will help it **reach a specific goal**.
+* It can **compare different possible actions** and **choose the one** that brings it closer to the goal.
+
+> In short: It doesn’t just react — it **plans and chooses actions** to achieve a goal.
+
+
+| **Feature**         | **Description**                                       |
+| ------------------- | ----------------------------------------------------- |
+| **Goal awareness**  | Can reason about future states and desired outcomes   |
+| **Decision-making** | Chooses actions that help achieve a specific goal     |
+| **Flexibility**     | Can change behavior when the goal changes             |
+| **Example**         | Navigation system, chess-playing AI, self-driving car |
+
+
+<img src="https://tutorialforbeginner.com/images/ai/goal-based-agent.png" alt="AGENTFLOW" width="700">
+
+
+> Example: Autonomous Taxi
+>
+> * **Goal:** Drop the passenger safely at the destination.
+> 
+> * **Actions:** Plan route, avoid obstacles, follow traffic rules, adjust to road changes.
+
+
+
+### **Goal-Based Agent: Strengths and Weaknesses**
+
+**Strengths:**
+
+* Can plan and make better decisions
+* Flexible and adaptable to changing goals
+
+**Weaknesses:**
+
+* Requires goal definition and planning algorithms
+* More computationally expensive than reflex agents
+
+---
+
+
+
+
+
  
