@@ -7,8 +7,10 @@ When the correct action to take is not immediately obvious, an agent may need to
 - Such an agent is called a **problem-solving agent**
 - The computational process it undertakes is called **search**
 
-![meme](https://content.imageresizer.com/images/memes/Scooby-Doo-Search-meme-2.jpg)
 
+<br>
+<img src="https://content.imageresizer.com/images/memes/Scooby-Doo-Search-meme-2.jpg" alt="AGENTFLOW" width="700">
+<br>
 
 
 ---
