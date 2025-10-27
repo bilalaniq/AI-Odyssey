@@ -149,6 +149,8 @@ To describe a task environment, we use the **PEAS framework**:
 # **Types of Agents**
 
 ![types of agent](https://csveda.com/wp-content/uploads/2021/07/AI-Agents-Types.jpg)
+<br>
+<br>
 
 ## **Simple reflex agent:**
 
@@ -164,9 +166,11 @@ It **acts only based on the current percept (input from sensors)** — without c
 
 The agent **does not store past information** and **cannot learn or plan** ahead.
 
-
+<br>
+<br>
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240513180031/ai3-1.webp" alt="AGENTFLOW" width="700">
-
+<br>
+<br>
 
 > Example: A vacuum cleaner **sucks dirt if the square is dirty**, otherwise **moves to the next square**.
 It **does not remember the past** or consider future consequences.
@@ -207,9 +211,11 @@ It can handle **partially observable environments** by keeping track of **some i
 | **Example**                 | Advanced vacuum cleaner, simple mobile robot                      |
 
 
-
+<br>
+<br>
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/art1.png" alt="AGENTFLOW" width="700">
-
+<br>
+<br>
 
 
 > Example: If the vacuum can’t see both rooms at once, it remembers which one was cleaned before:
@@ -257,8 +263,11 @@ A **Goal-Based Agent** is a more advanced type of intelligent agent that makes d
 | **Flexibility**     | Can change behavior when the goal changes             |
 | **Example**         | Navigation system, chess-playing AI, self-driving car |
 
-
+<br>
+<br>
 <img src="https://tutorialforbeginner.com/images/ai/goal-based-agent.png" alt="AGENTFLOW" width="700">
+<br>
+<br>
 
 
 > Example: Autonomous Taxi
