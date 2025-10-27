@@ -23,32 +23,19 @@ When the correct action to take is not immediately obvious, an agent may need to
     - [**Terminology**](#terminology)
   - [**Search Data Structures**](#search-data-structures)
   - [**Frontier Management**](#frontier-management)
-  - [**Types of Frontier Queues**](#types-of-frontier-queues)
+  - [**Types of Frontier Data Structures**](#types-of-frontier-data-structures)
   - [**Evaluating Search Strategies**](#evaluating-search-strategies)
     - [**Measured In Terms Of:**](#measured-in-terms-of)
 - [**Search algorithms**](#search-algorithms)
   - [**Uninformed (Blind) Search**](#uninformed-blind-search)
-  - [**Characteristics**](#characteristics)
-  - [**Components Used in Uninformed Search**](#components-used-in-uninformed-search)
   - [**Types**](#types)
     - [**1. Breadth-First Search (BFS)**](#1-breadth-first-search-bfs)
     - [**2. Depth-First Search (DFS)**](#2-depth-first-search-dfs)
     - [**3. Depth-Limited Search (DLS)**](#3-depth-limited-search-dls)
-      - [**Description:**](#description)
-      - [**Properties:**](#properties)
-      - [**Advantages:**](#advantages)
-      - [**Disadvantages:**](#disadvantages)
     - [**4. Iterative Deepening Search (IDS)**](#4-iterative-deepening-search-ids)
-      - [**Description:**](#description-1)
-      - [**Properties:**](#properties-1)
-      - [**Advantages:**](#advantages-1)
-      - [**Disadvantages:**](#disadvantages-1)
-    - [**5. Uniform Cost Search (UCS)**](#5-uniform-cost-search-ucs)
-      - [**Description:**](#description-2)
-      - [**Properties:**](#properties-2)
-      - [**Advantages:**](#advantages-2)
-      - [**Disadvantages:**](#disadvantages-2)
-  - [**5. Comparison Table**](#5-comparison-table)
+    - [**5. Bidirectional search with iterative deepening**](#5-bidirectional-search-with-iterative-deepening)
+    - [**6. Uniform Cost Search (UCS) Dijkstra’s algorithm**](#6-uniform-cost-search-ucs-dijkstras-algorithm)
+  - [**Comparison of uninformed search algorithms**](#comparison-of-uninformed-search-algorithms)
 
 ---
 
@@ -158,7 +145,7 @@ This step turns the **planned solution** into **real-world behavior** that achie
 
 
 <br>
-<img src="https://raw.githubusercontent.com/Codecademy/docs/main/media/binary-tree-labeled.png" alt="AGENTFLOW" width="700">
+<img src="https://raw.githubusercontent.com/Codecademy/docs/main/media/binary-tree-labeled.png" alt="alt" width="700">
 <br>
 
 ---
@@ -210,30 +197,30 @@ This information allows the algorithm to **reconstruct the full path** from the 
 
 ## **Frontier Management**
 
-The **frontier** (also known as the **open list**) contains all nodes that have been generated but **not yet expanded**.
+The **frontier** (also known as the **open list**) contains all nodes that have been **generated but not yet expanded**.
+It represents the **boundary** between explored and unexplored parts of the search tree.
 
-Operations needed for managing the frontier:
+Operations used for managing the frontier:
 
 * `IS-EMPTY(frontier)` → True if the frontier has no nodes.
 * `POP(frontier)` → Removes and returns the next node to expand.
 * `TOP(frontier)` → Returns (but does not remove) the next node.
-* `ADD(node, frontier)` → Inserts a node into the queue.
+* `ADD(node, frontier)` → Inserts a node into the frontier according to the search strategy.
 
-The **type of queue** used for the frontier determines the **search strategy**.
-
----
-
-## **Types of Frontier Queues**
-
-| **Type of Queue**              | **Description**                                                                     | **Used In**                    |
-| ------------------------------ | ----------------------------------------------------------------------------------- | ------------------------------ |
-| **FIFO (First-In, First-Out)** | Expands the oldest generated node first.                                            | **Breadth-First Search (BFS)** |
-| **LIFO (Last-In, First-Out)**  | Expands the most recently generated node first.                                     | **Depth-First Search (DFS)**   |
-| **Priority Queue**             | Expands the node with the smallest cost according to an evaluation function `f(n)`. | **Best-First Search**, **A***  |
-
-> The **choice of queue** directly affects **time, space, and optimality** of the search.
+The **behavior of the frontier** (i.e., which node is expanded next) depends on the **type of data structure** used.
 
 ---
+
+## **Types of Frontier Data Structures**
+
+| **Data Structure**                   | **Node Selection Rule**                                                           | **Used In**                    |
+| ------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------ |
+| **FIFO Queue** (First-In, First-Out) | Expands the **oldest generated** node first.                                      | **Breadth-First Search (BFS)** |
+| **LIFO Stack** (Last-In, First-Out)  | Expands the **most recently generated** node first.                               | **Depth-First Search (DFS)**   |
+| **Priority Queue**                   | Expands the node with the **lowest cost** or **best evaluation function `f(n)`**. | **Best-First Search**, **A***  |
+
+> The **data structure chosen for the frontier** directly determines the **search order**, **time and space complexity**, and **optimality** of the algorithm.
+
 
 ## **Evaluating Search Strategies**
 
@@ -265,7 +252,7 @@ They form the core of **problem-solving in Artificial Intelligence (AI)** — wh
 
 
 <br>
-<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250722170443251667/Search-Algorithms.webp" alt="AGENTFLOW" width="700">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250722170443251667/Search-Algorithms.webp" alt="alt" width="700">
 <br>
 
 
@@ -287,7 +274,7 @@ In other words:
 
 ---
 
-## **Characteristics**
+**Characteristics**
 
 * Does **not use a heuristic function**.
 * Explores **all possibilities** in a uniform or systematic way.
@@ -301,7 +288,7 @@ In other words:
 
 ---
 
-## **Components Used in Uninformed Search**
+**Components Used in Uninformed Search**
 
 1. **Initial State:** Where the search begins.
 2. **Goal Test:** A function that checks if a given state is the goal.
@@ -348,7 +335,7 @@ Uninformed search has **five major types**, depending on how they explore the se
 
 
 <br>
-<img src="https://static-assets.codecademy.com/Courses/CS102-Data-Structures-And-Algorithms/Breadth-First-Search-And-Depth-First-Search/Breadth-First-Tree-Traversal.gif" alt="AGENTFLOW" width="700">
+<img src="https://static-assets.codecademy.com/Courses/CS102-Data-Structures-And-Algorithms/Breadth-First-Search-And-Depth-First-Search/Breadth-First-Tree-Traversal.gif" alt="alt" width="700">
 <br>
 
 
@@ -382,95 +369,146 @@ so the result will be:
 * May find a **non-optimal** solution.
 
 
-
-
-
 <br>
-<img src="https://static-assets.codecademy.com/Courses/CS102-Data-Structures-And-Algorithms/Breadth-First-Search-And-Depth-First-Search/Depth-First-Tree-Traversal.gif" alt="AGENTFLOW" width="700">
+<img src="https://static-assets.codecademy.com/Courses/CS102-Data-Structures-And-Algorithms/Breadth-First-Search-And-Depth-First-Search/Depth-First-Tree-Traversal.gif" alt="alt" width="700">
 <br>
 
+so the result will be:
 
+`A → B → D → E → C → F → G`
 
 
 ---
 
 ### **3. Depth-Limited Search (DLS)**
 
-#### **Description:**
-
 * A modified DFS that stops when a **predefined depth limit (l)** is reached.
 * Prevents infinite loops.
 
-#### **Properties:**
+**Properties:**
 
-* **Completeness:** Yes (if goal depth ≤ limit)
+* **Completeness:** Yes (if goal depth ≤ limit) otherwize No
 * **Optimality:** No
 * **Time Complexity:** O(b^l)
 * **Space Complexity:** O(bl)
 
-#### **Advantages:**
+**Advantages:**
 
 * Prevents infinite paths.
 * Less memory usage.
 
-#### **Disadvantages:**
+**Disadvantages:**
 
 * Must **know an appropriate limit** beforehand.
 * May **miss the goal** if limit is too small.
+
+
+
+<br>
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*vf9qkp9izJa5m39IThkhrA.gif" alt="alt" width="900">
+<br>
+
+> where d is the `limit` here
 
 ---
 
 ### **4. Iterative Deepening Search (IDS)**
 
-#### **Description:**
-
 * Combines the benefits of **BFS** and **DFS**.
 * Repeatedly performs **Depth-Limited Search** with increasing depth limits.
 
-#### **Properties:**
+**Properties:**
 
 * **Completeness:** Yes
 * **Optimality:** Yes (for uniform cost)
 * **Time Complexity:** O(b^d)
 * **Space Complexity:** O(bd)
 
-#### **Advantages:**
+**Advantages:**
 
 * Uses less memory (like DFS).
 * Guarantees finding the **shortest path** (like BFS).
 
-#### **Disadvantages:**
+**Disadvantages:**
 
 * Repeats some nodes multiple times.
 
+
+
+<br>
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*dA20GbXBrT6-BUPMLqJFKA.gif" alt="alt" width="900">
+<br>
+
+
+> IDS uses memory similar to DFS, not BFS.
+> 
+> Even though it restarts the search multiple times, each individual depth-limited search is depth-first, so it only keeps the current path and a few siblings in memory.
+
+
+
+
 ---
 
-### **5. Uniform Cost Search (UCS)**
+### **5. Bidirectional search with iterative deepening**
 
-#### **Description:**
+> TODO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+### **6. Uniform Cost Search (UCS) Dijkstra’s algorithm**
 
 * Expands the node with the **lowest path cost (g(n))**, not by depth.
 * Works even when step costs differ.
 
-#### **Properties:**
+**Properties:**
 
 * **Completeness:** Yes (if cost > 0)
 * **Optimality:** Yes
-* **Time Complexity:** O(b^(C*/ε))
-* **Space Complexity:** O(b^(C*/ε))
+* **Time Complexity:** O(b^1+(C*/ε))
+* **Space Complexity:** O(b^1+(C*/ε))
 
-#### **Advantages:**
+**Advantages:**
 
 * Finds **least-cost paths**.
 * Works with **non-uniform costs**.
 
-#### **Disadvantages:**
+**Disadvantages:**
 
 * Can be slow when costs are similar or large.
 
+
+lets say if we want to reach `G`
+
+<br>
+<img src="https://raw.githubusercontent.com/AghdamAmir/UCS-and-A-star-search/main/ucs-gif.gif" alt="alt" width="900">
+<br>
+
+
+so by using `Uniform Cost Search (UCS)` we can find the shortest path which is:
+
+`A → C → F → G` with an total cost of `7.4`
+
 ---
 
-## **5. Comparison Table**
+## **Comparison of uninformed search algorithms**
 
 | **Algorithm**              | **Uses Heuristic?** | **Complete?** | **Optimal?**    | **Time Complexity** | **Space Complexity** | **Data Structure** |
 | -------------------------- | ------------------- | ------------- | --------------- | ------------------- | -------------------- | ------------------ |
