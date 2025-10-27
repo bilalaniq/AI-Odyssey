@@ -10,6 +10,7 @@
 
 1. [What is AI?](./md/Introduction%20to%20Artificial%20Intelligence.md)
 2. [What is AGENT?](./md/Agent.md)
+3. [Solving Problems by Searching](./md/Solving%20Problems%20by%20Searching.md)
 
 
 > _More episodes will appear as curiosity expands the horizon._
