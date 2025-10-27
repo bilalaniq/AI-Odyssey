@@ -49,6 +49,11 @@ It **perceives** the environment through *sensors* and **acts** on the environme
     - [**Model-Based Reflex Agent: Strengths and Weaknesses**](#model-based-reflex-agent-strengths-and-weaknesses)
   - [**Goal-Based Agent**](#goal-based-agent)
     - [**Goal-Based Agent: Strengths and Weaknesses**](#goal-based-agent-strengths-and-weaknesses)
+  - [**Utility-Based Agents**](#utility-based-agents)
+    - [**Utility-Based Agents: Strengths and Weaknesses**](#utility-based-agents-strengths-and-weaknesses)
+  - [**Learning Agent**](#learning-agent)
+    - [**Learning Agent: Strengths and Weaknesses**](#learning-agent-strengths-and-weaknesses)
+- [Comparison of AI Agent Types](#comparison-of-ai-agent-types)
 
 ---
 
@@ -289,8 +294,153 @@ A **Goal-Based Agent** is a more advanced type of intelligent agent that makes d
 
 * Requires goal definition and planning algorithms
 * More computationally expensive than reflex agents
+* If the agent doesn’t have complete information about the environment, its planning might be flawed
 
 ---
+
+## **Utility-Based Agents**
+
+A **Utility-Based Agent** is an advanced type of intelligent agent that doesn’t just aim to **achieve a goal**, but also tries to achieve it in the **best possible way** — maximizing performance, comfort, safety, or satisfaction.
+
+It evaluates **how desirable each possible state (or outcome)** is, using a **utility function** that assigns a *numerical value* to each state.
+
+1. The agent receives **percepts** from the environment.
+2. It uses its **model** to predict possible future states.
+3. For each state, it calculates a **utility value** (how good or useful that state is).
+4. It chooses the **action that leads to the highest utility** (most desirable result).
+
+> **In short:**
+> 
+> A goal-based agent asks: “Will this action reach my goal?”
+> 
+> A utility-based agent asks: “*Which* action will reach my goal *better*?”
+
+| **Feature**          | **Description**                                                  |
+| -------------------- | ---------------------------------------------------------------- |
+| **Utility Function** | Measures how good or desirable a state is                        |
+| **Decision-Making**  | Chooses action that gives the highest expected utility           |
+| **Planning**         | Considers multiple possible outcomes                             |
+| **Flexibility**      | Can handle trade-offs between competing goals                    |
+| **Examples**         | Self-driving car, recommendation systems, financial trading bots |
+
+
+
+<br>
+<br>
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPKFQ3VeVItAeHEuRKdluG7ZWx1s6TtI7HvK3CWlMv15fKGon6VU42GcnWLJXo0PE5zWPKpPQzpbUDh-hhSF4eSDP8_SYub8WKgsl0MRiSqEQsnGUbx_dQvd1bq-2-TZlSPT5zyEEwGtS6/s640/fig_2_14.jpg" alt="AGENTFLOW" width="700">
+<br>
+<br>
+
+
+
+
+
+> Example: Self-Driving Car
+>
+> * **Goal-Based Agent:** “Reach the destination.”
+> 
+> * **Utility-Based Agent:** “Reach the destination *safely, quickly, and comfortably*.”
+
+It might take a slightly longer route if it’s safer or has less traffic — because it **maximizes total utility**, not just goal completion.
+
+
+### **Utility-Based Agents: Strengths and Weaknesses**
+
+**Strengths:**
+
+* Makes more **intelligent, balanced, and optimal decisions**
+* Can handle **uncertain and complex environments**. These AI agents are flexible and adaptive
+* Allows **fine-grained trade-offs** (e.g., safety vs. speed)
+* Utility-based agents can consider factors like risk, time, and effort when evaluating different options
+
+**Weaknesses:**
+
+* Designing the utility function is complex
+* Requires designing an accurate **utility function**
+* **Computationally expensive** — must evaluate many possibilities
+* There is a degree of uncertainty about the outcomes
+
+---
+
+## **Learning Agent**
+
+
+A **Learning Agent** in AI is an agent that **improves its performance over time** by learning from its experiences, rather than relying solely on fixed rules like a simple reflex agent.
+
+
+A learning agent **adapts its behavior** based on feedback from the environment. It can learn from **past actions and results** to make better decisions in the future.
+
+A learning agent typically has **four main components**:
+
+1. **Performance Element** – chooses actions based on current knowledge.
+2. **Learning Element** – modifies the performance element based on experience.
+3. **Critic** – provides feedback on how well the agent is performing.
+4. **Problem Generator** – suggests actions that lead to new experiences for learning.
+
+
+<br>
+<br>
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20190704232940/learning-agent.png" alt="AGENTFLOW" width="700">
+<br>
+<br>
+
+
+
+> Example: Robot Vacuum Cleaner (Learning Version)
+>
+>* Starts by randomly moving in the room.
+>
+>* Learns which areas are dirtier or more frequently visited.
+>
+>* Adapts its movement to clean efficiently over time.
+
+### **Learning Agent: Strengths and Weaknesses**
+
+**Strengths:**
+
+* Can adapt to changes in the environment
+* Improves performance through experience
+* Handles complex and uncertain situations
+
+**Weaknesses:**
+
+* Needs time and data to learn
+* May make mistakes while learning
+* Requires more computational resources
+
+
+> only learning agents update their behavior based on experience, while the others just follow pre-defined rules or plans.
+
+---
+
+<br>
+<br>
+<br>
+
+
+
+# Comparison of AI Agent Types
+
+| **Feature**                 | **Simple Reflex Agent**                                             | **Model-Based Reflex Agent**                          | **Goal-Based Agent**                         | **Utility-Based Agent**                                      | **Learning Agent**                                            |
+| --------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
+| **Basis of Action**         | Acts only on **current percept** using fixed condition–action rules | Acts on **current percept + internal state (memory)** | Acts to **achieve specific goals**           | Acts to **maximize utility (best possible outcome)**         | Acts based on **learned knowledge and experience**            |
+| **Memory / Internal Model** | None                                                                | Maintains an **internal model** of the world          | Uses an internal model for planning          | Uses an internal model and evaluates multiple outcomes       | Continuously **updates its internal model through learning**  |
+| **Learning Capability**     | No                                                                  | Very limited (only updates state)                     | No explicit learning                         | May adapt slightly using utility values                      | **Yes – learns from experience and feedback**                 |
+| **Goal Awareness**          | No                                                                  | No                                                    | **Yes**                                      | **Yes (plus preferences)**                                   | **Yes (and learns to achieve goals better)**                  |
+| **Decision-Making**         | Based on fixed **if–then** rules                                    | Based on rules + stored state                         | **Plans** actions to reach a goal            | **Evaluates** and selects best action using utility function | **Improves** decisions using past performance and learning    |
+| **Adaptability**            | None                                                                | Limited                                               | Moderate (can change plan if goal changes)   | High (can balance multiple goals)                            | **Very high (adapts to environment and improves)**            |
+| **Environment Type**        | **Fully observable, static**                                        | **Partially observable, dynamic**                     | **Dynamic and goal-oriented**                | **Dynamic, uncertain, multi-objective**                      | **Dynamic, uncertain, changing**                              |
+| **Computation Complexity**  | Low                                                                 | Moderate                                              | High                                         | Very High                                                    | High (depends on learning algorithm)                          |
+| **Knowledge Source**        | Fixed rules programmed by designer                                  | Rules + internal model of world                       | Goals + environment model                    | Goals + utility function                                     | Goals + learned knowledge                                     |
+| **Flexibility**             | Very low                                                            | Low                                                   | High                                         | Very high                                                    | **Highest**                                                   |
+| **Improvement Over Time**   | None                                                                | Limited (model updates)                               | None (until goal changes)                    | Possible (if utility function is updated)                    | **Continuous** — improves with experience                     |
+| **Example**                 | Basic vacuum cleaner that cleans if dirt detected                   | Vacuum that remembers which room is dirty             | Taxi planning a route to reach destination   | Self-driving car optimizing safety, comfort, and speed       | Robot vacuum that learns best cleaning pattern over time      |
+| **Strengths**               | Simple, fast, efficient in static environments                      | Handles partial observability                         | Plans and adapts to changing goals           | Makes optimal decisions balancing trade-offs                 | Learns and adapts automatically; improves efficiency          |
+| **Weaknesses**              | No learning, no memory, limited to simple tasks                     | Relies on model accuracy, still no learning           | Needs goal definition and planning algorithm | Designing utility function is complex and costly             | Requires data, time, and computation; may make mistakes early |
+
+
+---
+
 
 
 
