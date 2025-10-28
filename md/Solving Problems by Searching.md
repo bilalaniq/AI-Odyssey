@@ -33,7 +33,7 @@ When the correct action to take is not immediately obvious, an agent may need to
     - [**2. Depth-First Search (DFS)**](#2-depth-first-search-dfs)
     - [**3. Depth-Limited Search (DLS)**](#3-depth-limited-search-dls)
     - [**4. Iterative Deepening Search (IDS)**](#4-iterative-deepening-search-ids)
-    - [**5. Bidirectional search with iterative deepening**](#5-bidirectional-search-with-iterative-deepening)
+    - [**5. Bidirectional Search with Iterative Deepening**](#5-bidirectional-search-with-iterative-deepening)
     - [**6. Uniform Cost Search (UCS) Dijkstra’s algorithm**](#6-uniform-cost-search-ucs-dijkstras-algorithm)
   - [**Comparison of uninformed search algorithms**](#comparison-of-uninformed-search-algorithms)
 
@@ -419,7 +419,7 @@ so the result will be:
 
 **Properties:**
 
-* **Completeness:** Yes
+* **Completeness:** Yes for finite b
 * **Optimality:** Yes (for uniform cost)
 * **Time Complexity:** O(b^d)
 * **Space Complexity:** O(bd)
@@ -445,30 +445,48 @@ so the result will be:
 > Even though it restarts the search multiple times, each individual depth-limited search is depth-first, so it only keeps the current path and a few siblings in memory.
 
 
+---
 
+### **5. Bidirectional Search with Iterative Deepening**
+
+Searches **forward from the start** and **backward from the goal**, meeting in the middle — and applies **iterative deepening** on both directions to limit memory use.
+
+It expands nodes **layer by layer** in both directions.
 
 ---
 
-### **5. Bidirectional search with iterative deepening**
+**Properties:**
 
-> TODO
+* **Completeness:** Yes (if branching factor is finite)   
+* **Optimality:** Yes (if both searches use BFS/IDDFS with uniform step cost)
+* **Time Complexity:** O(b^(d/2)) — MUCH better than O(b^d)        
+* **Space Complexity:** O(b^(d/2)) — improved but more than IDDFS  
+
+> *d = depth of the solution*
+
+**Advantages**
+
+* Major reduction in search time (meeting in the middle).
+* Uses less memory than standard bidirectional BFS (due to iterative deepening).
+* Good for large search spaces.
+
+**Disadvantages**
+
+* Hard to implement for problems where **goal state is not explicitly defined**.
+* Requires **reverse successor function** (not always available).
+* Synchronizing both searches can be tricky.
 
 
 
 
+<br>
+<img src="https://how.dev/api/edpresso/shot/6199751998963712/image/5139040078135296" alt="alt" width="700">
+<br>
 
 
+both `1` and `16` will intersect at node `9`
 
-
-
-
-
-
-
-
-
-
-
+> note that there are many version of `Bidirectional Search` based on `BFS` & `DFS` but here we are only taking about `Bidirectional Search` based on `IDS`
 
 
 ---
@@ -510,12 +528,13 @@ so by using `Uniform Cost Search (UCS)` we can find the shortest path which is:
 
 ## **Comparison of uninformed search algorithms**
 
-| **Algorithm**              | **Uses Heuristic?** | **Complete?** | **Optimal?**    | **Time Complexity** | **Space Complexity** | **Data Structure** |
-| -------------------------- | ------------------- | ------------- | --------------- | ------------------- | -------------------- | ------------------ |
-| Breadth-First Search       | No                  | Yes           | Yes (unit cost) | O(b^d)              | O(b^d)               | Queue (FIFO)       |
-| Depth-First Search         | No                  | No            | No              | O(b^m)              | O(bm)                | Stack (LIFO)       |
-| Depth-Limited Search       | No                  | Partial       | No              | O(b^l)              | O(bl)                | Stack (LIFO)       |
-| Iterative Deepening Search | No                  | Yes           | Yes (unit cost) | O(b^d)              | O(bd)                | Stack (LIFO)       |
-| Uniform Cost Search        | No                  | Yes           | Yes             | O(b^(C*/ε))         | O(b^(C*/ε))          | Priority Queue     |
+| **Algorithm**                                     | **Uses Heuristic?** | **Complete?**                    | **Optimal?**               | **Time Complexity** | **Space Complexity** | **Data Structure**                    |
+| ------------------------------------------------- | ------------------- | -------------------------------- | -------------------------- | ------------------- | -------------------- | ------------------------------------- |
+| **Breadth-First Search (BFS)**                    | No                  | Yes                              | Yes (if unit cost)         | O(b^d)              | O(b^d)               | Queue (FIFO)                          |
+| **Depth-First Search (DFS)**                      | No                  | No                               | No                         | O(b^m)              | O(bm)                | Stack (LIFO)                          |
+| **Depth-Limited Search (DLS)**                    | No                  | Partial                          | No                         | O(b^l)              | O(bl)                | Stack (LIFO)                          |
+| **Iterative Deepening Search (IDS)**              | No                  | Yes                              | Yes (if unit cost)         | O(b^d)              | O(bd)                | Stack (LIFO)                          |
+| **Uniform Cost Search (UCS)**                     | No                  | Yes                              | Yes (for lowest path cost) | O(b^(C*/ε))         | O(b^(C*/ε))          | Priority Queue                        |
+| **Bidirectional Search with Iterative Deepening** | No                  | Yes (if branching factor finite) | Yes (if both use BFS/IDS)  | O(b^(d/2))          | O(b^(d/2))           | Two frontiers (usually stacks/queues) |
 
 ---
