@@ -35,13 +35,22 @@ When the correct action to take is not immediately obvious, an agent may need to
     - [**4. Iterative Deepening Search (IDS)**](#4-iterative-deepening-search-ids)
     - [**5. Bidirectional Search with Iterative Deepening**](#5-bidirectional-search-with-iterative-deepening)
     - [**6. Uniform Cost Search (UCS) Dijkstra’s algorithm**](#6-uniform-cost-search-ucs-dijkstras-algorithm)
-    - [**Comparison of uninformed search algorithms**](#comparison-of-uninformed-search-algorithms)
   - [**Informed (heuristic) search:**](#informed-heuristic-search)
   - [**Heuristic Function (h(n))**](#heuristic-function-hn)
+    - [**Heuristic Function and Its Properties**](#heuristic-function-and-its-properties)
+    - [**1. Admissibility**](#1-admissibility)
+    - [**2. Consistency (or Monotonicity)**](#2-consistency-or-monotonicity)
   - [**Types**](#types-1)
     - [1. **Best-First Search**](#1-best-first-search)
     - [2. **Greedy Best-First Search**](#2-greedy-best-first-search)
     - [3. A\* Search (A-Star Search)](#3-a-search-a-star-search)
+      - [**Satisficing Search \& Weighted A**\*](#satisficing-search--weighted-a)
+    - [**Why memory-bounded search?**](#why-memory-bounded-search)
+      - [1) **Iterative Deepening A**\* (IDA\*)](#1-iterative-deepening-a-ida)
+      - [2) **Recursive Best-First Search (RBFS)**](#2-recursive-best-first-search-rbfs)
+      - [3) **Simplified Memory-Bounded A* (SMA*)\*\*](#3-simplified-memory-bounded-a-sma)
+  - [**comparison table**](#comparison-table)
+  - [**What “Contours” Really Are**](#what-contours-really-are)
 
 ---
 
@@ -531,18 +540,6 @@ so by using `Uniform Cost Search (UCS)` we can find the shortest path which is:
 
 ---
 
-### **Comparison of uninformed search algorithms**
-
-| **Algorithm**                                     | **Uses Heuristic?** | **Complete?**                    | **Optimal?**               | **Time Complexity** | **Space Complexity** | **Data Structure**                    |
-| ------------------------------------------------- | ------------------- | -------------------------------- | -------------------------- | ------------------- | -------------------- | ------------------------------------- |
-| **Breadth-First Search (BFS)**                    | No                  | Yes                              | Yes (if unit cost)         | O(b^d)              | O(b^d)               | Queue (FIFO)                          |
-| **Depth-First Search (DFS)**                      | No                  | No                               | No                         | O(b^m)              | O(bm)                | Stack (LIFO)                          |
-| **Depth-Limited Search (DLS)**                    | No                  | Partial                          | No                         | O(b^l)              | O(bl)                | Stack (LIFO)                          |
-| **Iterative Deepening Search (IDS)**              | No                  | Yes                              | Yes (if unit cost)         | O(b^d)              | O(bd)                | Stack (LIFO)                          |
-| **Uniform Cost Search (UCS)**                     | No                  | Yes                              | Yes (for lowest path cost) | O(b^(C*/ε))         | O(b^(C*/ε))          | Priority Queue                        |
-| **Bidirectional Search with Iterative Deepening** | No                  | Yes (if branching factor finite) | Yes (if both use BFS/IDS)  | O(b^(d/2))          | O(b^(d/2))           | Two frontiers (usually stacks/queues) |
-
----
 
 
 <br>
@@ -562,16 +559,46 @@ so by using `Uniform Cost Search (UCS)` we can find the shortest path which is:
 A **heuristic function** is an estimate of the **cost from the current node** `n` to the **goal**.
 It provides *guidance* to informed search algorithms (like **A*** and **Greedy Best-First Search**) so they can find solutions faster than uninformed methods.
 
+### **Heuristic Function and Its Properties**
 
-In general, a **heuristic function** is evaluated based on how well it estimates the true cost to reach the goal.
-The selected heuristic should be:
+A **heuristic function**, usually written as `h(n)`, estimates the cost (or distance) from a node `n` to the goal.
+The **quality** of a heuristic depends on two key mathematical properties:
 
-* **Admissible** → never overestimates the true cost (ensures optimality).
-* **Consistent (Monotonic)** → satisfies `h(n) ≤ cost(n, n') + h(n')`.
-* **Efficient to compute** → should be simple and fast to evaluate.
-* **Problem-specific** → derived from domain knowledge of the problem.
+1. **Admissibility**
+2. **Consistency (Monotonicity)**
 
-In practice, the heuristic with the **best balance** of accuracy and computational efficiency is chosen.
+### **1. Admissibility**
+
+A heuristic is **admissible** if it **never overestimates** the true cost to reach the goal.
+It always provides an **optimistic estimate** — meaning the heuristic value is less than or equal to the actual cost.
+Example: In a route-finding problem, the **straight-line distance** between two cities is admissible because it’s always shorter than or equal to the actual road distance.
+
+
+### **2. Consistency (or Monotonicity)**
+
+A heuristic is **consistent** if, for every node `n` and its successor `n′`, **h(n) ≤ cost(n, a , n′) + h(n′)**.
+The estimated cost from the current node to the goal `h(n)` should not be greater than the cost to move to a neighbor `c(n, a, n′)`plus the estimated cost from that neighbor to the goal `h(n′)`.
+Every consistent heuristic is also **admissible**, but not all admissible heuristics are consistent.
+
+> `c(n, a, n′)` = cost of moving from node `n` to its neighbor `n′` via action `a`.
+
+> it is diffferent from `g()` which is the total cost accumulated so far.
+
+
+consistency is also shown as : `consistency = triangle inequality for heuristics`
+
+where In geometry, the triangle inequality says: `Length(AB) ≤ Length(AC) + Length(CB)`
+
+That is — the direct path between two points (A → B) is never longer than going through an intermediate point (A → C → B).
+
+
+**Summery:**
+
+* **Admissibility** ensures the search algorithm (like A*) will find the **optimal path**.
+* **Consistency** ensures **efficiency**, allowing algorithms like A* to avoid revisiting nodes.
+
+
+---
 
 
 > donot confuse your self with Heuristic Value & Path Cost both are an different thing
@@ -699,9 +726,6 @@ Path found (one possible): `C → O → I → Z`
 
 ---
 
-
-
-
 ### 3. A* Search (A-Star Search)
 
 * **A*** Search is an **informed search algorithm** that combines the strengths of **Uniform Cost Search (UCS)** and **Greedy Best-First Search**.
@@ -765,103 +789,11 @@ so the most optimal path would be:
 `Start → a → b → d → e → Goal`
 
 
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-## 4. **Search Contours (f-contours / wavefronts)**
-
-**Intuition:** A* expands nodes in increasing order of `f(n) = g + h`. Think of nodes lying on **contours of equal f-value** (like elevation contours). A* “floods” the state space by expanding nodes with the smallest f first, so the frontier roughly follows a contour of `f = constant` that moves outward until it reaches the goal’s `f = C*`.
-
-* Nodes with `f < C*` will certainly be expanded.
-* Nodes with `f = C*` may or may not be expanded depending on tie-breaking.
-* Good heuristics compress the number of nodes with `f < C*` (steeper / closer contours to goal), reducing work.
-
-This contour view helps understand why admissible heuristics that raise `h` (without overestimating) prune many nodes below the optimal contour.
-
----
-
-## 5. **Heuristic Properties: Admissibility and Consistency**
-
-### Admissible heuristic
-
-* **Definition:** `h(n)` is *admissible* if for every node `n`: `h(n) ≤ h*(n)` where `h*(n)` is the true minimal cost from `n` to a goal.
-* **Implication:** With admissible `h`, A* (tree-search) is **optimal** — it will return a least-cost solution.
-
-### Consistent (monotone) heuristic
-
-* **Definition:** `h` is *consistent* if for every node `n` and successor `n'` generated by action `a` with cost `c(n,a,n')`:
-
-  ```
-  h(n) ≤ c(n,a,n') + h(n')
-  ```
-
-  and for every goal state `n_goal`, `h(n_goal) = 0`.
-* **Implication:** Consistency ⇒ admissibility. If `h` is consistent, then `f(n) = g(n) + h(n)` is **nondecreasing** along any path. This guarantees that when A* pops a node from the frontier, the best path to that node has been found — so nodes need not be re-expanded (graph-search is safe).
-
-**Why these matter:**
-
-* Use **admissible** heuristics to preserve optimality.
-* Prefer **consistent** heuristics for simpler, more efficient A* implementations.
-
----
-
-## 6. **Satisficing Search & Weighted A***
+#### **Satisficing Search & Weighted A***
 
 When you want a *good enough* solution quickly rather than the optimal one, use satisficing methods. **Weighted A*** is a popular approach.
 
-**Weighted A*** uses:
-
-```
-f(n) = g(n) + w * h(n)
-```
+**Weighted A*** uses: `f(n) = g(n) + w * h(n)`
 
 with weight `w > 1`.
 
@@ -877,104 +809,354 @@ with weight `w > 1`.
 
 ---
 
-## 7. **Memory-Bounded Heuristic Search**
 
-A*’s main practical limitation is **memory**. Several algorithms trade memory for time while keeping heuristic guidance.
 
-### 7.1 Iterative-Deepening A* (IDA*)
 
-**Idea:** combine A*’s `f`-based ordering with depth-first memory usage by performing repeated depth-first searches with increasing `f`-cost thresholds.
 
-**Procedure:**
 
-1. Set threshold = `f(start) = h(start)`.
-2. Do a depth-first search that prunes nodes with `f(n) > threshold`.
-3. If goal found, done. Otherwise, set threshold to the smallest `f` value that exceeded previous threshold and repeat.
 
-**Properties:**
 
-* **Memory:** linear in depth (like DFS) — O(bd).
-* **Time:** may repeat work across iterations; worst-case similar to A* but often practical.
-* **Optimality:** IDA* with admissible `h` finds optimal solution.
-* **Good for:** large spaces where A* runs out of memory, e.g., game trees, 15-puzzle with good heuristics (pattern databases).
 
-**Pseudocode (outline):**
 
-```
-threshold := h(start)
-loop:
-  t := dfs_limit(start, 0, threshold)
-  if found_goal: return solution
-  if t == ∞: return failure
-  threshold := t   # smallest f that exceeded previous threshold
-```
 
-### 7.2 Recursive Best-First Search (RBFS)
 
-**Idea:** RBFS is a memory-bounded best-first algorithm that uses recursion to keep track of the best alternative `f` along the path and backtracks when the current path’s `f` exceeds that alternative. It stores only a linear amount of memory (path + a few values).
 
-**Properties:**
 
-* **Memory:** linear in depth.
-* **Time:** may re-generate nodes many times; performance typically worse than A* but better than pure DFS for heuristic guidance.
-* **Behavior:** more complex to implement but useful when memory is limited.
 
-### 7.3 Simplified Memory-Bounded A* (SMA*)
 
-**Idea:** SMA* is an A*-like algorithm that uses all available memory; when memory is exhausted it deletes the worst frontier nodes (those with largest `f`), but remembers the best f-value among deleted descendants so it can re-generate them if needed.
 
-**Properties:**
 
-* **Memory-bounded** and will produce optimal solution if enough memory available; otherwise returns best possible given memory.
-* More complex bookkeeping: must track pruned nodes' best-known f.
 
----
 
-## 8. **When to Use Which Algorithm (Guidelines)**
 
-* **A***: when you have a good admissible/consistent heuristic and enough memory — typical first choice for optimal solutions.
-* **Greedy Best-First**: if you want a fast solution and optimality is not essential.
-* **Weighted A***: to trade solution quality for speed (satisficing).
-* **IDA***: when memory is severely limited but you still want optimality (useful with good heuristics).
-* **RBFS / SMA***: when you need memory-bounded best-first behavior with different tradeoffs.
-* **Heuristic design**: invest effort in a fast, admissible, informative heuristic (relaxed problems, pattern databases) — this often yields the largest speedup.
 
----
+### **Why memory-bounded search?**
 
-## 9. **Concrete Examples**
 
-* **8-puzzle**:
+**Memory-bounded search** is used because some search problems grow too large to fit in available memory, causing algorithms like A* to run out of space. It limits memory usage while still trying to find optimal or near-optimal solutions. This makes it practical for large real-world problems where memory is the main constraint.
 
-  * Heuristics: misplaced tiles (admissible), Manhattan distance (better).
-  * A* with Manhattan typically solves the 8-puzzle quickly.
-  * For 15-puzzle, pattern databases or IDA* are common because of memory constraints.
+**A*** is powerful but **stores all generated nodes** (open + closed lists). For large problems (deep searches, high branching factor, large state representations), A* quickly runs out of RAM. Memory-bounded searches trade extra CPU (re-expansion, recursion) for drastically lower memory use while still using heuristic guidance.
 
-* **Route finding**:
 
-  * Heuristic: straight-line distance (Euclidean) — admissible.
-  * A* with Euclidean distance finds shortest path efficiently.
+#### 1) **Iterative Deepening A*** (IDA*)
 
-* **Robot motion planning**:
+**Core idea:** Combine **A*’s f = g + h ordering** with **iterative-deepening** so each pass is depth-first (linear memory) but prunes by `f` threshold.
 
-  * Heuristics using lower bounds on control cost or relaxed kinematics.
+**How it works**
+
+1. Initialize threshold `T := f(start) = g(start)+h(start)`.
+2. Do a **depth-first search** that **prunes any node with f(n) > T** (treat them as dead for this iteration).
+3. If a goal is found within the threshold, return it (optimal if `h` admissible).
+4. Otherwise, record the **minimum f-value** among nodes pruned (the smallest `f > T`), set `T` to that value, and repeat.
+5. Continue until goal found or no nodes left.
+
+**Key points**
+
+* Each iteration explores an **f-contour**: all nodes with `f ≤ T`.
+* Memory: **O(b·d)** (like DFS) — only a path and locals on the recursion stack.
+* Time: can re-expand nodes many times across iterations → worst case larger than A*, but often practical with good heuristics.
+* Optimality: **Yes**, if `h` is admissible
+* Implementation detail: DFS must maintain `g` while recursing; when you prune by `f`, track the smallest `f` that exceeded the threshold to set the next threshold.
+
+**When to use**
+
+* Large state spaces where A* runs out of memory (e.g., 15-puzzle variants with pattern DB heuristics).
+* You want optimal solutions but have strict memory limits.
+
+
+<br>
+<img src="https://algorithmsinsight.wordpress.com/wp-content/uploads/2016/03/ida-star.gif?w=1326" alt="A* Search Example" width="700">
+<br>
+<br>
+<br>
+
 
 ---
 
-## 10. **Summary — Key Takeaways**
 
-* **Informed search** uses heuristics to focus search and dramatically reduce work compared to blind search.
-* **A*** is the paradigmatic informed algorithm: optimal and complete with admissible/consistent heuristics, but memory-hungry.
-* **Greedy Best-First** is fast but not optimal.
-* **Satisficing** (Weighted A*) trades optimality for speed.
-* **Memory-bounded** informed searches (IDA*, RBFS, SMA*) allow heuristic search when memory is the bottleneck.
-* **Heuristic design** (admissibility, consistency, dominance) is central — a stronger admissible heuristic is the single most effective way to improve performance.
+
+
+
+
+#### 2) **Recursive Best-First Search (RBFS)**
+
+**Core idea:** A best-first behavior with only linear memory by doing recursive DFS while remembering the best alternative `f`-value to which to backtrack.
+
+**How it works**
+
+1. **Start** from the initial node and compute its `f(n) = g(n) + h(n)`.
+2. **Set an f-limit** — the maximum `f` value allowed for this path (starts as ∞ for the root).
+3. **Expand** the current node’s children and calculate each child’s `f(n)`.
+4. **Sort** the children by their `f(n)` values (smallest first).
+5. **Choose** the best child (smallest `f`) and remember the next-best child’s `f` value and set it to `f-Limit`.
+6. **Recurse** into the best child with a **new f-limit** = min(parent’s f-limit, next-best f).
+7. If the best child’s `f` becomes **larger than the f-limit**, **backtrack** to the parent.
+8. **Update (backup)** the parent’s `f` with the best child’s `f` value.
+9. Continue this process until the **goal** is found or all paths exceed the current f-limit.
+
+
+**Key points**
+
+* Memory: **O(b·d)** (only stores a stack of nodes; no large open list).
+* Time: can repeatedly regenerate subtrees — more work than A* in the worst case.
+* Behavior: RBFS tries to behave like best-first, but constrained to linear memory. It uses *f-values* to decide when to backtrack and where to try next.
+* Re-expansion: RBFS may re-expand nodes when it returns to them later; the backed-up `f` reduces pointless rework.
+
+**When to use**
+
+* When you need A*-like behavior but cannot store an open list; RBFS is a practical linear-memory best-first option.
+* Useful when recursion and re-generation cost is acceptable.
+
+
+
+
+<br>
+<img src="https://i.ytimg.com/vi/bes2Emah1S0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC5PdiSjxPkJ_XTBsIDray6HdjQ8A
+" alt="A* Search Example" width="900">
+<br>
+<br>
+<br>
 
 ---
 
-If you want, I can now:
 
-* Show **A*** and **IDA*** implemented in Python for a small example (8-puzzle or grid pathfinding).
-* Produce **visual diagrams** showing A* expanding contours and IDA* iterations.
-* Provide a short exercise you can use in class or for practice.
 
-Which of these would you like next? -->
+
+
+
+
+
+
+
+
+#### 3) **Simplified Memory-Bounded A* (SMA*)**
+
+**Core idea:** Use A*-style best-first search but impose a **hard memory cap**; when memory is full, delete the *least promising* node (largest `f`) while remembering enough information to reconstruct it later if needed.
+
+
+**How it works**
+
+1. Run A* but limit total stored nodes to a fixed memory bound `M`.
+2. When you need to add a new node and memory is full, **drop a node with the worst `f`** in the frontier (the least promising leaf).
+3. Before dropping it, **backup its best-known `f`** to its parent so the parent knows the best possible result hidden in that pruned subtree.
+4. SMA* always keeps the best nodes that fit in memory; when the best leaf is expanded, deleted nodes’ backed up `f` values tell the search whether to regenerate pruned subtrees later.
+5. If you ever need to reconsider a pruned subtree (its parent's backed up `f` indicates it could be as good as current alternatives), SMA* can regenerate it (re-generate path), using the backed up f to prioritize.
+
+**Key points**
+
+* Memory-bounded but **best attempt at optimal A*** within memory.
+* If memory is large enough to store the nodes needed by A*, SMA* behaves like A* and is optimal.
+* If memory insufficient, SMA* returns the best solution it can find given the bound; with admissible `h`, if memory eventually allows, it still finds optimal.
+* SMA* maintains additional bookkeeping: for each deleted subtree it must store the best `f` value to inform future decisions.
+* Time: may regenerate pruned nodes many times (costly), but avoids running out of memory.
+
+**When to use**
+
+* You have a strict memory cap and still want to use A*-like selection.
+* Good when memory is only slightly less than needed for A* — SMA* gracefully degrades.
+
+
+
+<br>
+<img src="../img/SMBAstar.png" alt="A* Search Example" width="900">
+<br>
+<br>
+<br>
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ## Comparison summary
+
+| Algorithm |       Memory       |           Optimal (with admissible h)?            |      Main cost       | Notes                                             |
+| --------: | :----------------: | :-----------------------------------------------: | :------------------: | :------------------------------------------------ |
+|    **A*** | High (open+closed) |                        Yes                        |     Memory heavy     | Best when memory available                        |
+|  **IDA*** |       O(b·d)       |                        Yes                        | Time (repeated work) | Simple to implement; uses f-thresholds            |
+|  **RBFS** |       O(b·d)       |              Yes (with admissible h)              | Time (re-generation) | Recursive; backs up f-values                      |
+|  **SMA*** |   ≤ memory cap M   | Yes if memory sufficient, otherwise best possible | Time (regeneration)  | Keeps best nodes until memory fills; prunes worst |
+
+---
+
+## Practical implementation tips & pitfalls
+
+* **IDA***:
+
+  * Use iterative threshold increases carefully — choose next threshold as the smallest `f` that exceeded current threshold (not e.g. +1).
+  * If `h` values are integers or discrete, threshold jumps are manageable; with real valued costs you track minimal exceeding f.
+  * IDA* is extremely memory-cheap but may waste time re-visiting shallow nodes many times.
+
+* **RBFS**:
+
+  * Implement as recursion that returns the best `f` when it can’t find a better solution under the current limit.
+  * Keep children sorted (or pick best two) to know the best alternative `f` to pass down.
+  * Watch recursion depth and stack limits in practical languages.
+
+* **SMA***:
+
+  * Requires a priority structure and ability to delete arbitrary nodes (least promising leaf). Implementing efficiently needs care.
+  * Must store “backup” data for pruned subtrees — small metadata but critical.
+  * Performance can be quite good when memory is tuned near problem needs.
+
+---
+
+## Which to choose?
+
+* If **memory is abundant**, use **A*** (fastest in time, optimal).
+* If **memory is very tight** and you must keep memory near linear, use **IDA*** (simple, optimal, but may be slow).
+* If you want **A*-like behavior with linear memory** and are okay with recursion and re-generation, use **RBFS**.
+* If you have a **fixed moderate memory budget** and want the best possible A*-style results within that budget, use **SMA***.
+
+---
+
+If you want, I can:
+
+* Show **pseudo-code** for IDA*, RBFS, and SMA* (concise) so you can implement them.
+* Produce a **worked example** (small graph) comparing their expansions and memory usage step-by-step. Which would you prefer?
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## **comparison table**
+
+| **Algorithm**                           | **Uses Heuristic?** | **Complete?**                    | **Optimal?**              | **Time Complexity**      | **Space Complexity**    | **Data Structure / Type**                    |
+| --------------------------------------- | ------------------- | -------------------------------- | ------------------------- | ------------------------ | ----------------------- | -------------------------------------------- |
+| **Breadth-First Search (BFS)**          | No                  | Yes                              | Yes (if unit cost)        | O(b^d)                   | O(b^d)                  | Queue (FIFO)                                 |
+| **Depth-First Search (DFS)**            | No                  | No                               | No                        | O(b^m)                   | O(bm)                   | Stack (LIFO)                                 |
+| **Depth-Limited Search (DLS)**          | No                  | Partial                          | No                        | O(b^l)                   | O(bl)                   | Stack (LIFO)                                 |
+| **Iterative Deepening Search (IDS)**    | No                  | Yes                              | Yes (if unit cost)        | O(b^d)                   | O(bd)                   | Stack (LIFO)                                 |
+| **Uniform Cost Search (UCS)**           | No                  | Yes                              | Yes (lowest path cost)    | O(b^(C*/ε))              | O(b^(C*/ε))             | Priority Queue (by path cost g(n))           |
+| **Bidirectional Search**                | No                  | Yes (if branching factor finite) | Yes (if both use BFS/IDS) | O(b^(d/2))               | O(b^(d/2))              | Two frontiers (queues/stacks)                |
+| **Greedy Best-First Search**            | Yes (h(n))          | No (can loop)                    | No                        | Depends on accuracy of h | High (stores all nodes) | Priority Queue (by smallest h(n))            |
+| **A* Search (A-Star Search)**           | Yes (g+h)           | Yes (if h is admissible)         | Yes (if h is admissible)  | O(b^d) to exponential    | O(b^d)                  | Priority Queue (by f(n)=g+h)                 |
+| **Weighted A***                         | Yes (w*h)           | Not always (depends on w)        | No (for w>1)              | Faster than A*           | Similar to A*           | Priority Queue (by f(n)=g+w·h)               |
+| **Iterative Deepening A* (IDA*)**       | Yes (g+h)           | Yes (if h admissible)            | Yes (if h admissible)     | O(b^d)                   | O(bd)                   | Depth-first style recursion (f-limit cutoff) |
+| **Recursive Best-First Search (RBFS)**  | Yes (g+h)           | Yes (if h admissible)            | Yes (if h admissible)     | O(b^d)                   | O(bd)                   | Recursive DFS with f-limit                   |
+| **Simplified Memory-Bounded A* (SMA*)** | Yes (g+h)           | Yes (if enough memory)           | Yes (if enough memory)    | O(b^d)                   | ≤ Memory bound (fixed)  | Priority Queue with memory pruning           |
+
+
+**Legend / Notes**
+
+* `b` = branching factor
+* `d` = depth of goal node
+* `m` = maximum depth of tree
+* `C*` = optimal path cost
+* `ε` = minimum edge cost (positive)
+* `h(n)` = heuristic estimate (to goal)
+* `g(n)` = cost from start to current node
+* `f(n)` = total cost estimate (`f = g + h`)
+
+---
+
+
+<br>
+<br>
+<br>
+
+
+
+
+## **What “Contours” Really Are**
+
+A **contour** (or **wavefront**) isn’t something you *draw* manually — it’s something that **forms naturally** as the search algorithm explores the state space.
+
+Each contour represents **all nodes that have the same evaluation value** — depending on the algorithm, that value could be:
+
+* `depth` → in BFS
+* `g(n)` (actual cost so far) → in UCS
+* `h(n)` (heuristic estimate) → in Greedy
+* `f(n) = g(n) + h(n)` → in A*
+
+**How Contours Form**
+
+Think of dropping a stone in water:
+
+* Waves (contours) spread out equally in all directions.
+* Each ring shows points that are the **same distance** from where the stone landed.
+
+In search algorithms:
+
+* The **start node** is the center (like where the stone drops).
+* The **search frontier** expands outward as nodes are visited.
+* Each “ring” or contour represents nodes that share the same **evaluation value** (cost, steps, or heuristic).
+
+
+**Example: A* Search**
+
+In A* search:
+
+* Each node has a total estimated cost `f(n) = g(n) + h(n)`.
+* The algorithm expands the node with the **smallest f-value** first.
+* As it expands nodes with increasing f-values, the frontier moves like a “wave” outward through the state space.
+* All nodes with the same f-value lie on the same contour (like an elevation line on a map).
+* A* always expands the nodes with the smallest f-value first. So, it expands layer by layer — each layer (contour) has slightly higher f value.
+* When it finally reaches the goal with total cost `C*`, that’s the `optimal path`
+
+
+* Nodes with `f < C*` are **definitely explored** (they’re cheaper than the best path).
+* Nodes with `f = C*` **might** be explored, depending on tie-breaking.
+* A **good heuristic** makes contours tighter (closer to the goal), so A* searches **fewer nodes** and works faster.
+
+
+<br>
+<img src="../img/ASTR.png" alt="A* Search Example" width="700">
+<br>
+<br>
+
+
+
+| Algorithm  | Contour Based On  | Meaning of Contour         | Shape/Expansion                 |
+| ---------- | ----------------- | -------------------------- | ------------------------------- |
+| **BFS**    | Depth / Level     | Equal number of steps      | Expands evenly in layers        |
+| **UCS**    | Path cost `g(n)`  | Equal actual cost          | Expands by cheapest total cost  |
+| **Greedy** | Heuristic `h(n)`  | Equal estimated distance   | Expands toward goal direction   |
+| **A***     | Total cost `f(n)` | Equal estimated total cost | Expands efficiently toward goal |
+
+
+heres another example:
+
+
+<br>
+<img src="https://science.slc.edu/~jmarshall/courses/2005/fall/cs151/lectures/heuristic-search/contours.gif" alt="A* Search Example" width="700">
+<br>
+<br>
+
+
+
+**In short:**
+
+Contours show how far the algorithm has explored, based on what it considers “distance” — whether that’s steps, cost, heuristic, or a mix.
+
+
+
+---
