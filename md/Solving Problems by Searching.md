@@ -911,8 +911,7 @@ with weight `w > 1`.
 
 
 <br>
-<img src="https://i.ytimg.com/vi/bes2Emah1S0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC5PdiSjxPkJ_XTBsIDray6HdjQ8A
-" alt="A* Search Example" width="900">
+<img src="../img/RBFS.png" alt="A* Search Example" width="900">
 <br>
 <br>
 <br>
