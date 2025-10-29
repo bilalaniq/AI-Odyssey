@@ -962,6 +962,13 @@ with weight `w > 1`.
 <br>
 <br>
 
+
+In SMA*, when a node is dropped due to memory limits, its **best possible future cost** must be backed up to its parent.
+Instead of storing the current cost (6), SMA* stores the **minimum estimated f-value** that this forgotten subtree might still achieve (5).
+This keeps the option open to revisit that path later if it becomes promising again.
+So the value becomes **5**, because SMA* always backs up the **most optimistic** cost estimate.
+
+
 ---
 
 
