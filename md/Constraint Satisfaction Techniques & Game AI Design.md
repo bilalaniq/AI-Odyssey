@@ -640,7 +640,6 @@ Now we come to the key part — **how to decide the best move**.
 This process continues up to the root node.
 The value at the root is the **MiniMax value** of the game — it represents the best possible outcome for MAX if both play optimally.
 
-**Backtracking and Value Propagation**
 
 MiniMax works in a **depth-first** way:
 
@@ -664,7 +663,7 @@ Every node along that optimal path will share the **same MiniMax value** as the 
 
 
 <br>
-<img src="https://miro.medium.com/v2/resize:fit:960/0*FNVaB19gXIyfKtXI.gif" alt="ALT" width="900">
+<img src="https://miro.medium.com/v2/0*tw1AxVsojzvrwLiK.png" alt="ALT" width="900">
 <br>
 <br>
 <br>
