@@ -206,7 +206,7 @@ This helps visualize relationships between variables.
 
 
 <br>
-<img src="https://www.researchgate.net/profile/Abderrazak-Daoudi/publication/325808704/figure/fig2/AS:638325140512769@1529199981896/An-example-of-graph-coloring-problem.png" alt="ALT" width="600">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6xi4olVlOWFyjq3Zmm23FGkUA26xPZcf7uw&s" alt="ALT" width="600">
 <br>
 <br>
 
