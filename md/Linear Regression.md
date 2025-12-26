@@ -17,7 +17,7 @@
     - [**Hypothesis Function**](#hypothesis-function)
   - [Linear Regression: Loss Function vs Cost Function](#linear-regression-loss-function-vs-cost-function)
     - [Loss Function](#loss-function)
-  - [Cost Function](#cost-function)
+  - [Cost Function SSE(Sum of Squared Errors)](#cost-function-ssesum-of-squared-errors)
   - [3. Key Differences](#3-key-differences)
   - [Assumptions of Linear Regression](#assumptions-of-linear-regression)
   - [Types of Linear Regression](#types-of-linear-regression)
@@ -117,7 +117,7 @@ Where:
 
 ---
 
-## Cost Function
+## Cost Function SSE(Sum of Squared Errors)
 
 **Definition:** A cost function is the **average loss over the entire training dataset**. It tells us how well the model performs on all data.  
 
@@ -134,10 +134,8 @@ Where:
 
 💡 **Intuition:** While the loss function measures error for **one example**, the cost function measures error for the **whole dataset**. During training, we minimize the cost function to find the best $\theta_0$ and $\theta_1$.
 
-<video width="520" height="300" controls>
-  <source src="../img/sse.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+<img src="../img/sse.gif" alt="linear regression" width="400">
 
 
 ---
