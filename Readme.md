@@ -13,6 +13,8 @@
 3. [Solving Problems by Searching](./md/Solving%20Problems%20by%20Searching.md)
 4. [Constraint Satisfaction Techniques & Game AI Design](./md/Constraint%20Satisfaction%20Techniques%20&%20Game%20AI%20Design.md)
 5. [Machine Learning](./md/Machine%20Learning.md)
+   - [Supervised learning](./md/Supervised%20learning.md)
+   - [UnSupervised learning](./md/UnSupervised%20learning.md)
 
 
 > _More episodes will appear as curiosity expands the horizon._

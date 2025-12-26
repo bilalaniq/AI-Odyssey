@@ -9,6 +9,7 @@
     - [Variance](#variance)
     - [Underfitting vs Overfitting](#underfitting-vs-overfitting)
   - [supervised learning tasks](#supervised-learning-tasks)
+  - [Supervised Learning Algorithms](#supervised-learning-algorithms)
 
 
 
@@ -132,3 +133,18 @@ A curve that passes through every data point.
 <br>
 
 <img src="https://spotintelligence.com/wp-content/uploads/2023/05/regression-vs-classification.jpg" width="400">
+
+---
+
+
+## Supervised Learning Algorithms
+
+1. [Linear Regression](./Linear%20Regression.md)
+2. [Logistic Regression]()
+3. [k-Nearest Neighbors (k-NN)]()
+4. Naive Bayes
+5. Support Vector Machine (SVM)
+6. Decision Trees
+7. Random Forests
+8. Boosting Algorithms
+9. Neural Networks
