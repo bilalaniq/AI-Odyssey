@@ -17,11 +17,10 @@
     - [**Hypothesis Function**](#hypothesis-function)
   - [Linear Regression: Loss Function vs Cost Function](#linear-regression-loss-function-vs-cost-function)
     - [Loss Function](#loss-function)
-  - [Cost Function SSE (Sum of Squared Errors)](#cost-function-sse-sum-of-squared-errors)
+    - [Cost Function SSE (Sum of Squared Errors)](#cost-function-sse-sum-of-squared-errors)
   - [Best-Fitting Line in Linear Regression](#best-fitting-line-in-linear-regression)
-    - [1. Normal Equation (Matrix Method)](#1-normal-equation-matrix-method)
-    - [2. Gradient Descent](#2-gradient-descent)
-    - [✅ Summary](#-summary)
+    - [Normal Equation (Matrix Method)](#normal-equation-matrix-method)
+    - [Gradient Descent](#gradient-descent)
   - [Assumptions of Linear Regression](#assumptions-of-linear-regression)
   - [Types of Linear Regression](#types-of-linear-regression)
   - [Evaluation Metrics](#evaluation-metrics)
@@ -120,7 +119,7 @@ Where:
 
 ---
 
-## Cost Function SSE (Sum of Squared Errors)
+### Cost Function SSE (Sum of Squared Errors)
 
 **Definition:** A cost function is the **average loss over the entire training dataset**. It tells us how well the model performs on all data.  
 
@@ -152,114 +151,102 @@ Where:
 
 ---
 
+
 ## Best-Fitting Line in Linear Regression
 
-Here are the main ways to find the best-fitting line:
+In **linear regression**, the goal is to find a line that best fits a set of data points.  
+This line is represented as:
 
-1. **Normal Equation (Matrix Method)** – Solve analytically using linear algebra:
-
-   $
-   \theta = (X^T X)^{-1} X^T y
-   $
-2. **Gradient Descent** – Iteratively minimize the cost function to find the best parameters.
-
-
-
-In linear regression, the goal is to find a line that best fits the data points. This line is represented as:
-
-$
+$$
 \hat{y} = \theta_0 + \theta_1 x
-$
+$$
 
-The parameters \(\theta_0\) (intercept) and \(\theta_1\) (slope) are chosen to **minimize the error** between predicted values \(\hat{y}\) and actual values \(y\). Two main methods to find these parameters are:
+Where:
+
+- $\theta_0$ = intercept  
+- $\theta_1$ = slope  
+
+The parameters are chosen to **minimize the error** between predicted values $\hat{y}$ and actual values $y$, using the **Least Squares** principle.
+
+There are two main approaches to find the best-fitting line:
+
+1. **Normal Equation (Matrix Method)** – analytical solution  
+2. **Gradient Descent** – iterative optimization method  
 
 ---
 
-### 1. Normal Equation (Matrix Method)
+### Normal Equation (Matrix Method)
 
-The **Normal Equation** is an analytical method that directly calculates the best-fitting line using linear algebra.
+The **Normal Equation** computes the optimal parameters directly using linear algebra.
 
 **Formula:**
 
-$
+$$
 \theta = (X^T X)^{-1} X^T y
-$
+$$
 
 **Where:**
 
-- \(X\) = feature matrix (with a column of 1’s for the intercept)  
-- \(y\) = vector of target values  
-- \(\theta\) = vector of parameters \([\theta_0, \theta_1]^T\)
+- $X$ = feature matrix (includes a column of 1’s for the intercept)  
+- $y$ = vector of target values  
+- $\theta$ = parameter vector $[\theta_0, \theta_1]^T$
 
 **Intuition:**
 
-- This method **solves the system of equations** that comes from minimizing the sum of squared errors (SSE).  
-- By setting the derivative of the cost function with respect to \(\theta\) to zero, we get the formula above.  
-- The Normal Equation gives the exact solution **without iteration**, so it’s efficient for small to medium datasets.  
+- This method comes from minimizing the **Sum of Squared Errors (SSE)**.  
+- By setting the derivative of the cost function with respect to $\theta$ to zero, we obtain the Normal Equation.  
+- It provides an **exact solution** without iteration.
 
 **Pros:**
 
-- No need to choose a learning rate  
-- Gives exact solution  
+- No learning rate required  
+- Exact solution  
 
 **Cons:**
 
-- Computationally expensive for very large datasets  
-- Cannot be used if \(X^T X\) is non-invertible (though pseudo-inverse can help)
+- Computationally expensive for large datasets  
+- Fails if $(X^T X)$ is non-invertible (can be fixed using the pseudo-inverse)
 
 ---
 
-### 2. Gradient Descent
+### Gradient Descent
 
-**Gradient Descent** is an iterative optimization method to find the parameters that minimize the cost function.
+**Gradient Descent** is an iterative algorithm that minimizes the cost function step by step.
 
 **Cost Function (Mean Squared Error):**
 
-$
+$$
 J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} \big(\hat{y}^{(i)} - y^{(i)}\big)^2
-$
+$$
 
 **Update Rule:**
 
-For each parameter \(\theta_j\) (\(j = 0, 1\)):
+For each parameter $\theta_j$, where $j \in \{0, 1\}$:
 
-$
+$$
 \theta_j := \theta_j - \alpha \frac{\partial J(\theta_0, \theta_1)}{\partial \theta_j}
-$
+$$
 
 **Where:**
 
-- \(\alpha\) = learning rate (controls the step size)  
-- \(\frac{\partial J}{\partial \theta_j}\) = partial derivative of the cost function with respect to \(\theta_j\)  
-- Iterate until the cost function converges to a minimum.
+- $\alpha$ = learning rate  
+- $m$ = number of training examples  
 
 **Intuition:**
 
-- Imagine the cost function as a **bowl-shaped surface**. Gradient Descent “rolls downhill” step by step to reach the lowest point, which corresponds to the **best-fitting line**.  
-- Especially useful for **large datasets or multiple features**, where the Normal Equation becomes computationally expensive.
+- Think of the cost function as a **bowl-shaped surface**.  
+- Gradient Descent moves downhill in small steps until it reaches the minimum.  
+- Especially useful for **large datasets or multiple features**.
 
 **Pros:**
 
-- Works for very large datasets  
-- Can handle multiple features (multivariable regression)  
+- Scales well to large datasets  
+- Works for multivariable regression  
 
 **Cons:**
 
-- Requires choosing a proper learning rate  
-- Convergence may be slow if learning rate is too small or oscillatory if too large
-
----
-
-### ✅ Summary
-
-| Method | How it works | Pros | Cons |
-|--------|-------------|------|------|
-| Normal Equation | Analytical, solves \(\theta = (X^T X)^{-1} X^T y\) | Exact solution, no iterations | Expensive for large datasets, may fail if \(X^T X\) non-invertible |
-| Gradient Descent | Iterative minimization of cost function | Works for large/multi-feature datasets | Needs learning rate, may require many iterations |
-
-Both methods are based on the **Least Squares principle**, which minimizes the total squared error between predictions and actual values.
-
-
+- Requires choosing a good learning rate  
+- May converge slowly or oscillate if $\alpha$ is poorly chosen
 
 
 
