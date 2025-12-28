@@ -19,13 +19,16 @@
     - [Loss Function](#loss-function)
     - [Cost Function SSE (Sum of Squared Errors)](#cost-function-sse-sum-of-squared-errors)
   - [Best-Fitting Line in Linear Regression](#best-fitting-line-in-linear-regression)
-    - [Normal Equation (Matrix Method)](#normal-equation-matrix-method)
-    - [Gradient Descent](#gradient-descent)
   - [Assumptions of Linear Regression](#assumptions-of-linear-regression)
   - [Types of Linear Regression](#types-of-linear-regression)
-  - [Evaluation Metrics](#evaluation-metrics)
   - [Advantages](#advantages)
   - [Limitations](#limitations)
+  - [Performance Metrics for Linear Regression](#performance-metrics-for-linear-regression)
+    - [1. Mean Absolute Error (MAE)](#1-mean-absolute-error-mae)
+    - [2. Mean Squared Error (MSE)](#2-mean-squared-error-mse)
+    - [3. Root Mean Squared Error (RMSE)](#3-root-mean-squared-error-rmse)
+    - [4. R-squared (R²) Score](#4-r-squared-r-score)
+  - [Comparison of Regression Performance Metrics](#comparison-of-regression-performance-metrics)
 
 
 
@@ -123,15 +126,23 @@ Where:
 
 **Definition:** A cost function is the **average loss over the entire training dataset**. It tells us how well the model performs on all data.  
 
-For linear regression, the most common cost function is **Mean Squared Error (MSE)** over all $m$ training examples:
 
 $$
-J(\theta_0, \theta_1) = \frac{1}{m} \sum_{i=1}^{m} (\hat{y}^{(i)} - y^{(i)})^2
+J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right)^2
 $$
+
+
+where the hypothesis (prediction) function is:
+
+
+$$
+h_\theta(x^{(i)}) = \theta_0 + \theta_1 x^{(i)}
+$$
+
+
 
 Where:  
 - $m$ = number of training examples  
-- $\hat{y}^{(i)} = \theta_0 + \theta_1 x^{(i)}$  
 - $y^{(i)}$ = true value of the $i$-th example  
 
 💡 **Intuition:** While the loss function measures error for **one example**, the cost function measures error for the **whole dataset**. During training, we minimize the cost function to find the best $\theta_0$ and $\theta_1$.
@@ -147,110 +158,29 @@ Where:
 | ------------------ | -------------------------------------------- | ------------------------------------------------------ |
 | Measures error for | **Single training example**                  | **All training examples (average)**                    |
 | Used for           | Understanding prediction error for one point | Optimizing the model parameters                        |
-| Example in LR      | $(\hat{y}-y)^2$                              | $\frac{1}{m}\sum_{i=1}^{m}(\hat{y}^{(i)}-y^{(i)})^2$  |
+| Example in LR      | $(\hat{y}-y)^2$                              | $\frac{1}{2m} \sum_{i=1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right)^2$  |
 
 ---
 
 
 ## Best-Fitting Line in Linear Regression
 
-In **linear regression**, the goal is to find a line that best fits a set of data points.  
-This line is represented as:
+Gradient Descent is an **algorithm to find the best-fitting line** in linear regression by minimizing the prediction error.
 
-$$
-\hat{y} = \theta_0 + \theta_1 x
-$$
+1. **Start with initial guesses** for the slope ($\theta_1$) and intercept ($\theta_0$).
+2. **Predict the outputs** using the current line: $\hat{y} = \theta_0 + \theta_1 x$
+3. **Calculate the error** for each data point: difference between predicted and actual value.
+4. **Compute the gradient**: the direction in which the error increases.
+5. **Update the parameters**: move the slope and intercept slightly in the **opposite direction of the gradient** to reduce error.
+6. **Repeat** steps 2–5 until the error is as small as possible.
 
-Where:
+**Key Idea:** Gradient Descent is like **rolling down a hill** to reach the lowest point. The “hill” is the cost function (error), and the lowest point is where the line fits the data best.
 
-- $\theta_0$ = intercept  
-- $\theta_1$ = slope  
-
-The parameters are chosen to **minimize the error** between predicted values $\hat{y}$ and actual values $y$, using the **Least Squares** principle.
-
-There are two main approaches to find the best-fitting line:
-
-1. **Normal Equation (Matrix Method)** – analytical solution  
-2. **Gradient Descent** – iterative optimization method  
-
----
-
-### Normal Equation (Matrix Method)
-
-The **Normal Equation** computes the optimal parameters directly using linear algebra.
-
-**Formula:**
-
-$$
-\theta = (X^T X)^{-1} X^T y
-$$
-
-**Where:**
-
-- $X$ = feature matrix (includes a column of 1’s for the intercept)  
-- $y$ = vector of target values  
-- $\theta$ = parameter vector $[\theta_0, \theta_1]^T$
-
-**Intuition:**
-
-- This method comes from minimizing the **Sum of Squared Errors (SSE)**.  
-- By setting the derivative of the cost function with respect to $\theta$ to zero, we obtain the Normal Equation.  
-- It provides an **exact solution** without iteration.
-
-**Pros:**
-
-- No learning rate required  
-- Exact solution  
-
-**Cons:**
-
-- Computationally expensive for large datasets  
-- Fails if $(X^T X)$ is non-invertible (can be fixed using the pseudo-inverse)
-
----
-
-### Gradient Descent
-
-**Gradient Descent** is an iterative algorithm that minimizes the cost function step by step.
-
-**Cost Function (Mean Squared Error):**
-
-$$
-J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^{m} \big(\hat{y}^{(i)} - y^{(i)}\big)^2
-$$
-
-**Update Rule:**
-
-For each parameter $\theta_j$, where $j \in \{0, 1\}$:
-
-$$
-\theta_j := \theta_j - \alpha \frac{\partial J(\theta_0, \theta_1)}{\partial \theta_j}
-$$
-
-**Where:**
-
-- $\alpha$ = learning rate  
-- $m$ = number of training examples  
-
-**Intuition:**
-
-- Think of the cost function as a **bowl-shaped surface**.  
-- Gradient Descent moves downhill in small steps until it reaches the minimum.  
-- Especially useful for **large datasets or multiple features**.
-
-**Pros:**
-
-- Scales well to large datasets  
-- Works for multivariable regression  
-
-**Cons:**
-
-- Requires choosing a good learning rate  
-- May converge slowly or oscillate if $\alpha$ is poorly chosen
+- The **learning rate** ($\alpha$) controls how big each step is.
+- The process gradually finds the **line that minimizes prediction errors**.
 
 
-
-
+![gradiant decent](https://www.startertutorials.com/blog/wp-content/uploads/2021/09/Gradient_Descent_Animation.gif)
 
 
 
@@ -330,16 +260,7 @@ Linear regression works best when these assumptions hold:
 
 ---
 
-## Evaluation Metrics
 
-To evaluate model performance:
-
-* **Mean Squared Error (MSE)**
-* **Root Mean Squared Error (RMSE)**
-* **Mean Absolute Error (MAE)**
-* **R² Score (Coefficient of Determination)**
-
----
 
 ## Advantages
 
@@ -356,5 +277,146 @@ To evaluate model performance:
 * Sensitive to outliers
 * Assumes linear relationship
 * Poor performance if assumptions are violated
+
+---
+
+
+## Performance Metrics for Linear Regression
+
+To evaluate the performance of a linear regression model, the following metrics are commonly used:
+
+### 1. Mean Absolute Error (MAE)
+
+Mean Absolute Error (MAE) measures the **average magnitude of errors** between predicted values and actual values, without considering their direction.
+
+$$
+\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} \left| \hat{y}^{(i)} - y^{(i)} \right|
+$$
+
+where n represents the number of data points (samples) in the dataset.
+
+**Explanation**
+
+- Computes the absolute difference between each prediction and the true value  
+- Averages these absolute errors over all data points  
+- Treats all errors equally (no squaring)
+
+**Interpretation**
+
+- Lower MAE indicates better model performance  
+- MAE is expressed in the **same units as the target variable**, making it easy to interpret
+
+**Advantages**
+
+- Simple and intuitive  
+- Less sensitive to outliers compared to Mean Squared Error (MSE)
+
+**Disadvantages**
+- Does not penalize large errors as strongly as MSE  
+- Not differentiable at zero (can affect some optimization methods)
+
+### 2. Mean Squared Error (MSE)
+
+Mean Squared Error (MSE) measures the **average of the squared differences** between predicted values and actual values.
+
+$$
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} \left( \hat{y}^{(i)} - y^{(i)} \right)^2
+$$
+
+**Explanation**
+- Calculates the difference between prediction and true value  
+- Squares each error to make all values positive  
+- Averages the squared errors over all data points
+
+**Interpretation**
+- Lower MSE indicates better model performance  
+- Larger errors are penalized more heavily due to squaring
+
+**Advantages**
+- Differentiable and easy to optimize  
+- Emphasizes large errors, which can be useful in many applications
+
+**Disadvantages**
+- Sensitive to outliers  
+- Expressed in squared units of the target variable
+
+
+
+### 3. Root Mean Squared Error (RMSE)
+
+Root Mean Squared Error (RMSE) measures the **square root of the average squared differences** between predicted values and actual values.
+
+$$
+\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} \left( \hat{y}^{(i)} - y^{(i)} \right)^2}
+$$
+
+**Explanation**
+- Computes the squared error for each prediction  
+- Averages the squared errors (MSE)  
+- Takes the square root to return to the original unit
+
+**Interpretation**
+- Lower RMSE indicates better model performance  
+- RMSE is expressed in the **same units as the target variable**
+
+**Advantages**
+
+- Penalizes large errors more than MAE  
+- Easier to interpret than MSE
+
+**Disadvantages**
+
+- Sensitive to outliers  
+- Larger errors have a stronger influence due to squaring
+
+
+### 4. R-squared (R²) Score
+
+R-squared (R²) measures how well a regression model explains the **variance in the target variable**.
+
+$$
+R^2 = 1 - \frac{\sum_{i=1}^{n} \left( y^{(i)} - \hat{y}^{(i)} \right)^2}{\sum_{i=1}^{n} \left( y^{(i)} - \bar{y} \right)^2}
+$$
+
+
+
+**Explanation**
+- Compares the model’s prediction errors to the errors of a simple baseline model  
+- The baseline model always predicts the mean of the target values ($\bar{y}$)
+
+**Interpretation**
+
+- $R^2 = 1$: Perfect fit  
+- $R^2 = 0$: Model performs no better than predicting the mean  
+- $R^2 < 0$: Model performs worse than the mean prediction
+
+**Advantages**
+
+- Easy to interpret  
+- Shows how much variance is explained by the model
+
+**Limitations**
+- Does not indicate whether predictions are accurate  
+- Can be misleading for non-linear relationships  
+- Increases when more features are added, even if they are irrelevant
+
+---
+
+
+## Comparison of Regression Performance Metrics
+
+| Metric                             | What it Measures                                                | Error Sensitivity               | Units                   | Interpretation                   | Key Advantage                             | Key Limitation                                  |
+| ---------------------------------- | --------------------------------------------------------------- | ------------------------------- | ----------------------- | -------------------------------- | ----------------------------------------- | ----------------------------------------------- |
+| **MAE (Mean Absolute Error)**      | Average absolute difference between predicted and actual values | Low (treats all errors equally) | Same as target variable | Lower value = better performance | Simple, robust to outliers                | Large errors not strongly penalized             |
+| **MSE (Mean Squared Error)**       | Average of squared prediction errors                            | High (large errors dominate)    | Squared units of target | Lower value = better performance | Easy to optimize, emphasizes large errors | Very sensitive to outliers, harder to interpret |
+| **RMSE (Root Mean Squared Error)** | Square root of average squared errors                           | High (penalizes large errors)   | Same as target variable | Lower value = better performance | Interpretable, highlights large mistakes  | Sensitive to outliers                           |
+| **R² (R-squared Score)**           | Proportion of variance explained by the model                   | Indirect (variance-based)       | Unitless                | Closer to 1 = better fit         | Shows overall explanatory power           | Does not measure prediction accuracy            |
+
+**Quick Usage Guide**
+
+* **Use MAE** → when robustness to outliers is important
+* **Use MSE** → when large errors must be heavily penalized
+* **Use RMSE** → when error size matters and interpretability is needed
+* **Use R²** → when you want to understand how well the model explains the data
 
 ---
