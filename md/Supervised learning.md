@@ -122,8 +122,8 @@ A curve that passes through every data point.
 ## supervised learning tasks
 
 - classification - predict discrete classes
-  - Multiclass classification
   - Binary classification
+  - Multiclass classification
 
    ![b vs M](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoxWNMHjFlyq04NqraOOkBbiCyf8kPNX0UFg&s) 
 
@@ -140,7 +140,7 @@ A curve that passes through every data point.
 ## Supervised Learning Algorithms
 
 1. [Linear Regression](./Linear%20Regression.md)
-2. [Logistic Regression]()
+2. [Logistic Regression](./Logistic%20Regression.md)
 3. [k-Nearest Neighbors (k-NN)]()
 4. Naive Bayes
 5. Support Vector Machine (SVM)
