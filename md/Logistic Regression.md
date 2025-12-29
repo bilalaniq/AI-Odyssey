@@ -367,15 +367,15 @@ A **confusion matrix** is a table that shows the performance of a classification
 **Definition:**
 Accuracy measures the proportion of correctly predicted instances (both positive and negative) out of all predictions.
 
-$
+$$
 \text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
-$
+$$
 
 Or using the confusion matrix:
 
-$
+$$
 \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
-$
+$$
 
 Where:
 
@@ -396,9 +396,9 @@ Where:
 **Definition:**
 Precision measures how many of the instances predicted as positive are actually positive. It tells us the **accuracy of positive predictions**.
 
-$
+$$
 \text{Precision} = \frac{TP}{TP + FP}
-$
+$$
 
 Where:
 
@@ -417,9 +417,9 @@ Where:
 **Definition:**
 Recall measures how many of the actual positive instances were correctly predicted. It tells us the **ability of the model to find all positive cases**.
 
-$
+$$
 \text{Recall} = \frac{TP}{TP + FN}
-$
+$$
 
 Where:
 
@@ -438,9 +438,9 @@ Where:
 **Definition:**
 F1 Score is the **harmonic mean of Precision and Recall**. It balances the two metrics into a single score, especially useful when you need to consider both **false positives** and **false negatives**.
 
-$
+$$
 \text{F1 Score} = 2 \cdot \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
-$
+$$
 
 **Use case:**
 
