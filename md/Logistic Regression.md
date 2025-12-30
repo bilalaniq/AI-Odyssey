@@ -27,10 +27,8 @@ Logistic Regression solves this using the **Sigmoid function**.
   - [Sigmoid (Logistic) Function](#sigmoid-logistic-function)
   - [Decision Boundary](#decision-boundary)
   - [Cost Function (Log Loss)](#cost-function-log-loss)
-  - [Training Using Gradient Descent](#training-using-gradient-descent)
+  - [**Gradient Descent for Logistic Regression**](#gradient-descent-for-logistic-regression)
   - [Types of Logistic Regression](#types-of-logistic-regression)
-  - [Regularization](#regularization)
-    - [L1 Regularization (Lasso)\*\*](#l1-regularization-lasso)
   - [Assumptions](#assumptions)
   - [Advantages](#advantages)
   - [Disadvantages](#disadvantages)
@@ -138,9 +136,6 @@ Typically:
 **Where:**
 
 * **$x$** = input features
-  $$
-  x = [x_1, x_2, \dots, x_n]
-  $$
 
 * **$w$** = weights (learned during training)
 
@@ -215,13 +210,12 @@ $$
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20190503112448/Logistics_Regression2-3.jpg" width="400">
 
 
-
-
 ---
 
 ## Cost Function (Log Loss)
 
 Logistic Regression uses **Binary Cross-Entropy Loss**.
+
 
 $$
 J(w,b) = -\frac{1}{m} \sum_{i=1}^{m}
@@ -230,33 +224,69 @@ y_i \log(\hat{y}_i) + (1 - y_i)\log(1 - \hat{y}_i)
 \right]
 $$
 
-Why this loss?
+* $m$ is the number of training examples
+* $y_i \in {0,1}$ is the true label for example $i$
+* $\hat{y}_i$ is the predicted probability that $y_i = 1$
+* The loss is computed **per example** and then averaged
 
-* Penalizes confident wrong predictions
-* Convex function
-* Works well with probabilities
+**How the formula works:**
+
+* If $y_i = 1$, the loss becomes:
+  $$
+  -\log(\hat{y}_i)
+  $$
+  The loss is small when $\hat{y}_i$ is close to $1$ and large when $\hat{y}_i$ is close to $0$.
+
+* If $y_i = 0$, the loss becomes:
+  $$
+  -\log(1 - \hat{y}_i)
+  $$
+  The loss is small when $\hat{y}_i$ is close to $0$ and large when $\hat{y}_i$ is close to $1$.
+
+This formula measures how well the predicted probabilities $\hat{y}_i$ match the true labels $y_i$.
 
 ---
 
-## Training Using Gradient Descent
 
-We minimize the cost function by updating parameters.
+## **Gradient Descent for Logistic Regression**
 
-**Weight Update Rule:**
+Gradient Descent is an algorithm used to find the best-fitting **decision boundary** in logistic regression by minimizing the **log loss (binary cross-entropy)**.
 
+Start with initial guesses for the weights $(w)$ and bias $(b)$.
+
+Predict probabilities using the sigmoid function:
+$$
+\hat{y} = \sigma(z) = \frac{1}{1 + e^{-z}}, \quad z = w^T x + b
+$$
+
+Calculate the error for each data point: the difference between the predicted probability $\hat{y}$ and the true label $y$.
+
+Compute the gradient: the direction in which the **loss function** increases with respect to $w$ and $b$.
+
+Update the parameters by moving them slightly in the opposite direction of the gradient to reduce the loss:
 $$
 w := w - \alpha \frac{\partial J}{\partial w}
 $$
-
-**Bias Update Rule:**
-
 $$
 b := b - \alpha \frac{\partial J}{\partial b}
 $$
 
-Where:
+* **$J$** is the **cost (loss) function** that measures how wrong the model’s predictions are.
+* **$w$** represents the **weights (parameters)** that control how input features affect the prediction.
+* **$b$** is the **bias (intercept)** term that shifts the decision boundary.
+* Gradient Descent updates **$w$** and **$b$** to minimize **$J$**.
 
-* $\alpha$ = learning rate
+Repeat the prediction, loss calculation, gradient computation, and update steps until the loss becomes as small as possible.
+
+**Key Idea:**
+Gradient Descent in logistic regression is like rolling down a hill where the “hill” is the **log loss function**. The lowest point corresponds to parameters that best separate the two classes.
+
+The learning rate $(\alpha)$ controls how big each step is.
+The process gradually finds the parameters that minimize classification error by improving probability predictions.
+
+
+<img src="https://miro.medium.com/v2/1*HtR3xMvJ-rOhKoER9QWPmg.jpeg" width="400">
+
 
 ---
 
@@ -274,24 +304,6 @@ Where:
 **Ordinal Logistic Regression**
 
 * Ordered categories
-
----
-
-## Regularization
-
-To prevent overfitting:
-
-### L1 Regularization (Lasso)**
-
-$$
-J = J + \lambda \sum |w|
-$$
-
-**L2 Regularization (Ridge)**
-
-$$
-J = J + \lambda \sum w^2
-$$
 
 ---
 
