@@ -141,19 +141,6 @@ A curve that passes through every data point.
 
 ## Supervised Learning Algorithms
 
-<!-- 1. [Linear Regression](./Linear%20Regression.md)
-2. [Logistic Regression](./Logistic%20Regression.md)
-3. [k-Nearest Neighbors (k-NN)]()
-4. Naive Bayes
-5. Support Vector Machine (SVM)
-6. Decision Trees
-7. Random Forests
-8. Boosting Algorithms
-9. Neural Networks -->
-
-
-
-
 ### **Parametric Algorithms**
 
 * **Definition:** They assume a **fixed formula** for how input relates to output.
@@ -180,7 +167,7 @@ A curve that passes through every data point.
 
 **Examples:**
 
-* k-Nearest Neighbors (k-NN)
+* [k-Nearest Neighbors](./k-Nearest%20Neighbors.md) (k-NN)
 * Decision Trees
 * Random Forests
 
