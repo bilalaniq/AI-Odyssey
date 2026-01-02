@@ -112,6 +112,7 @@ P(C|X) \propto P(C) \prod_{i=1}^{n} P(x_i|C)
 $$
 
 The predicted class is:
+
 $$
 \hat{C} = \arg\max_C \left[ P(C)\prod P(x_i|C) \right]
 $$
@@ -131,35 +132,6 @@ $$
 2. Choose class with **maximum probability**
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
