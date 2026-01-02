@@ -166,6 +166,7 @@ Problem:
 * Entire product becomes **0**
 
 Solution:
+
 $$
 P = \frac{count + 1}{total + k}
 $$
