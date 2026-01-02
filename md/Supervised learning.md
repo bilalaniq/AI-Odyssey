@@ -10,6 +10,8 @@
     - [Underfitting vs Overfitting](#underfitting-vs-overfitting)
   - [supervised learning tasks](#supervised-learning-tasks)
   - [Supervised Learning Algorithms](#supervised-learning-algorithms)
+    - [**Parametric Algorithms**](#parametric-algorithms)
+    - [**Non-Parametric Algorithms**](#non-parametric-algorithms)
 
 
 
@@ -139,7 +141,7 @@ A curve that passes through every data point.
 
 ## Supervised Learning Algorithms
 
-1. [Linear Regression](./Linear%20Regression.md)
+<!-- 1. [Linear Regression](./Linear%20Regression.md)
 2. [Logistic Regression](./Logistic%20Regression.md)
 3. [k-Nearest Neighbors (k-NN)]()
 4. Naive Bayes
@@ -147,4 +149,42 @@ A curve that passes through every data point.
 6. Decision Trees
 7. Random Forests
 8. Boosting Algorithms
-9. Neural Networks
+9. Neural Networks -->
+
+
+
+
+### **Parametric Algorithms**
+
+* **Definition:** They assume a **fixed formula** for how input relates to output.
+* **Learn:** A **fixed number of parameters** (like weights or probabilities).
+* **Pros:** Fast to train and predict.
+* **Cons:** Can’t capture very complex patterns.
+
+**Examples:**
+
+* [Linear Regression](./Linear%20Regression.md) → learns weights and bias
+* [Logistic Regression](./Logistic%20Regression.md) → learns weights and bias
+* [Naïve Bayes](./Naïve%20Bayes.md) → learns probabilities
+
+**Think of it like:** Fitting a **straight line** to data.
+
+---
+
+### **Non-Parametric Algorithms**
+
+* **Definition:** They **don’t assume a formula**. The model **grows with data**.
+* **Learn:** Patterns directly from data; more data = more complexity.
+* **Pros:** Can handle very complex patterns.
+* **Cons:** Slower to train and predict.
+
+**Examples:**
+
+* k-Nearest Neighbors (k-NN)
+* Decision Trees
+* Random Forests
+
+**Think of it like:** Drawing a **curve that goes through all points**.
+
+---
+
