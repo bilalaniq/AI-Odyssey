@@ -25,7 +25,7 @@ It works by:
   - [Advantages of k-NN](#advantages-of-k-nn)
   - [Disadvantages of k-NN](#disadvantages-of-k-nn)
   - [When Should You Use k-NN?](#when-should-you-use-k-nn)
-  - [13. Real-World Applications](#13-real-world-applications)
+  - [Real-World Applications](#real-world-applications)
 
 ---
 

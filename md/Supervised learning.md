@@ -168,7 +168,7 @@ A curve that passes through every data point.
 **Examples:**
 
 * [k-Nearest Neighbors](./k-Nearest%20Neighbors.md) (k-NN)
-* Decision Trees
+* [Decision Trees](./Decision%20Tree.md)
 * Random Forests
 
 **Think of it like:** Drawing a **curve that goes through all points**.
