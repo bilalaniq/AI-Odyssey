@@ -166,6 +166,10 @@ $$
 * Error = 0 → Pure node  
 * Lower Error → Better split
 
+
+<img src="https://sebastianraschka.com/images/faq/decisiontree-error-vs-entropy/Slide2.png" width="600">
+
+
 ---
 
 ## Stopping Conditions
