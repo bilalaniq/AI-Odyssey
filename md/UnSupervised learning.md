@@ -4,6 +4,7 @@
 - [Unsupervised learning](#unsupervised-learning)
   - [Table of Contents](#table-of-contents)
     - [Clustering](#clustering)
+  - [Types of Clustering](#types-of-clustering)
 
 
 
@@ -19,7 +20,7 @@
 * **Similar data → same cluster**
 * **Different data → different clusters**
 
-**Types of Clustering**
+## Types of Clustering
 
 1. [K-means](./K-means%20clustering.md)
 
@@ -31,6 +32,10 @@
 
    * Creates clusters step by step
    * Forms a tree-like structure
+
+
+> click [here](./Hierarchical_vs_Kmean.md) to see the difference between Hierarchical vs. K-means clustering 
+
 
 3. **DBSCAN**
 

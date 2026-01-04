@@ -58,7 +58,10 @@ The result is a **hierarchy** that shows relationships between data points at di
 
 **Distance Metrics**
 
-Distance metrics define **how similarity is measured**.
+* Distance metrics define **how similarity is measured**.
+* A distance matrix stores pairwise distances between all points
+* Hierarchical clustering uses this matrix to decide merges/splits
+
 
 Common distance measures:
 
@@ -78,6 +81,10 @@ $$
 ---
 
 **Linkage Criteria**
+
+Linkage criteria define how the distance between two clusters is measured in hierarchical clustering.
+They determine which clusters should be merged at each step of the algorithm.
+
 
 * **Single Linkage:**
   The distance between two clusters is defined as the minimum distance between any pair of points from the two clusters. This method is simple but often leads to the formation of long, chain-like clusters.
