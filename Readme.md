@@ -15,6 +15,9 @@
 5. [Machine Learning](./md/Machine%20Learning.md)
    - [Supervised learning](./md/Supervised%20learning.md)
    - [UnSupervised learning](./md/UnSupervised%20learning.md)
+6. [Deep Learning](./md/Deep%20Learning.md)
+
+
 
 
 > _More episodes will appear as curiosity expands the horizon._
