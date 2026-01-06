@@ -36,6 +36,8 @@ Example:
   - [**Loss**](#loss)
   - [**Gradient Descent**](#gradient-descent)
   - [**Backpropagation**](#backpropagation)
+- [Goal:](#goal)
+- [Intuition recap:](#intuition-recap)
 
 
 
@@ -398,187 +400,193 @@ In short, **gradient descent is how neural networks learn** by continuously adju
 
 ---
 
-**Forward Pass**
+we will understand it using an example 
 
-For each neuron (j):
+<img src="../img/Backpropagation_exmp.png" width="900">
 
-1. Compute the weighted sum:
-   
-$$
-z_j = \sum_i w_{i,j} a_i + b_j
-$$
 
-1. Apply the activation function:
+
+
+
+**Setup — Your network equations**:
 
 $$
-a_j = g_j(z_j)
-$$
-
-* ($a_i$) = input from previous layer
-* ($w_{i,j}$) = weight from neuron (i) to (j)
-* ($b_j$) = bias of neuron (j)
-* ($g_j$) = activation function of neuron (j)
-
-Compute the **loss** (L) based on predicted outputs and targets.
-
----
-
-**Compute Gradients at Output Layer**
-
-For a neuron (k) in the output layer:
-
-1. Compute the **error term**:
-   
-$$
-\delta_k = \frac{\partial L}{\partial a_k} \cdot g'_k(z_k)
-$$
-
-1. Gradient of loss w.r.t weight (w_{j,k}):
-
-$$
-\frac{\partial L}{\partial w_{j,k}} = \delta_k \cdot a_j
-$$
-
-1. Gradient of loss w.r.t bias (b_k):
-
-$$
-\frac{\partial L}{\partial b_k} = \delta_k
+\begin{cases}
+z_1 = w_1 x_1 + w_2 x_2 \\
+a_1 = g_1(z_1) \\
+z_2 = w_3 x_3 + w_4 x_4 \\
+a_2 = g_2(z_2) \\
+z_3 = w_5 a_1 + w_6 a_2 \\
+a_3 = g_3(z_3) \\
+L = L(a_3) \quad \text{(loss function depending on output)}
+\end{cases}
 $$
 
 ---
 
-**Compute Gradients for Hidden Layers**
+# Goal:
 
-For a hidden neuron (j):
+We want to compute the gradient of loss (L) w.r.t. **each weight**, i.e., ($\frac{\partial L}{\partial w_i}$) for ($i=1, \ldots, 6$), to update the weights to minimize the loss.
 
-1. Compute error term using **backpropagated errors** from next layer:
+---
+
+**Step 1: Forward pass — compute all intermediate values**
+
+Before backpropagation, compute ($z_1$, $a_1$, $z_2$, $a_2$, $z_3$, $a_3$) using current weights, inputs, and activation functions.
+
+This is just applying the formulas above to get numeric values (not part of gradient calculation but necessary to know values at each neuron).
+
+
+
+**Step 2: Calculate output layer error term ($\delta_3$)**
+
+What is ($\delta_3$)?
 
 $$
-\delta_j = g'*j(z_j) \sum*{k} w_{j,k} \delta_k
+\delta_3 = \frac{\partial L}{\partial z_3}
 $$
 
-* Sum is over all neurons (k) in the next layer connected to (j).
+This tells us how sensitive the loss is to changes in (z_3), the weighted sum before the activation at the output neuron.
 
-1. Gradient of loss w.r.t weight (w_{i,j}):
+
+
+Use chain rule to expand ($\delta_3$):
+
+Since ($a_3 = g_3(z_3)$) and ($L$) depends on ($a_3$),
 
 $$
-\frac{\partial L}{\partial w_{i,j}} = \delta_j \cdot a_i
+\delta_3 = \frac{\partial L}{\partial z_3} = \frac{\partial L}{\partial a_3} \times \frac{\partial a_3}{\partial z_3} = \frac{\partial L}{\partial a_3} \times g_3'(z_3)
 $$
 
-1. Gradient w.r.t bias (b_j):
-   
+* ($\frac{\partial L}{\partial a_3}$): How much the loss changes if output ($a_3$) changes (depends on your loss function, e.g., Mean Squared Error or Cross-Entropy).
+* ($g_3'(z_3)$): Derivative of activation function at ($z_3$).
+
+---
+
+**Step 3: Compute gradients for output layer weights ($w_5$, $w_6$)**
+
+Recall:
+
 $$
-\frac{\partial L}{\partial b_j} = \delta_j
+z_3 = w_5 a_1 + w_6 a_2
+$$
+
+Use chain rule to compute gradients of loss w.r.t weights:
+
+$$
+\frac{\partial L}{\partial w_5} = \frac{\partial L}{\partial z_3} \times \frac{\partial z_3}{\partial w_5} = \delta_3 \times a_1
+$$
+
+$$
+\frac{\partial L}{\partial w_6} = \delta_3 \times a_2
+$$
+
+
+
+**Step 4: Calculate hidden layer error terms ($\delta_1$, $\delta_2$)**
+
+Now, find how the loss changes with respect to the weighted sums at hidden neurons:
+
+$$
+\delta_1 = \frac{\partial L}{\partial z_1}, \quad \delta_2 = \frac{\partial L}{\partial z_2}
+$$
+
+
+
+**Use chain rule again — consider dependencies**:
+
+* ($L$) depends on ($a_3$), which depends on ($a_1$) (through ($z_3$))
+* ($a_1 = g_1(z_1)$), so changes in ($z_1$) affect ($a_1$), which affect ($L$)
+
+Write explicitly:
+
+$$
+\delta_1 = \frac{\partial L}{\partial z_1} = \frac{\partial L}{\partial a_1} \times \frac{\partial a_1}{\partial z_1} = \frac{\partial L}{\partial a_1} \times g_1'(z_1)
+$$
+
+But ($\frac{\partial L}{\partial a_1}$) comes from the next layer:
+
+$$
+\frac{\partial L}{\partial a_1} = \frac{\partial L}{\partial z_3} \times \frac{\partial z_3}{\partial a_1} = \delta_3 \times w_5
+$$
+
+So,
+
+$$
+\boxed{
+\delta_1 = \delta_3 \times w_5 \times g_1'(z_1)
+}
+$$
+
+Similarly for neuron ($u_2$):
+
+$$
+\delta_2 = \delta_3 \times w_6 \times g_2'(z_2)
 $$
 
 ---
 
-**Update Weights and Biases**
+**Step 5: Compute gradients for hidden layer weights ($w_1$, $w_2$, $w_3$, $w_4$)**
 
-After gradients are calculated, update parameters using **gradient descent**:
+Using the definition of ($z_1$, $z_2$):
 
 $$
-w_{i,j} \leftarrow w_{i,j} - \eta \frac{\partial L}{\partial w_{i,j}}
+z_1 = w_1 x_1 + w_2 x_2
+$$
+
+$$
+z_2 = w_3 x_3 + w_4 x_4
+$$
+
+Calculate gradients:
+
+$$
+\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial z_1} \times \frac{\partial z_1}{\partial w_1} = \delta_1 \times x_1
+$$
+
+$$
+\frac{\partial L}{\partial w_2} = \delta_1 \times x_2
+$$
+
+$$
+\frac{\partial L}{\partial w_3} = \delta_2 \times x_3
+$$
+
+$$
+\frac{\partial L}{\partial w_4} = \delta_2 \times x_4
+$$
+
+
+
+
+
+**Step 6: Update weights and biases with learning rate ($\eta$)**
+
+Once all gradients are computed:
+
+$$
+w_i \leftarrow w_i - \eta \frac{\partial L}{\partial w_i}
 $$
 
 $$
 b_j \leftarrow b_j - \eta \frac{\partial L}{\partial b_j}
 $$
 
-* ($\eta$) = learning rate
-* Repeat for all layers and all training examples.
+---
 
+**Summary table of gradients**:
 
+| Parameter | Gradient              |
+| --------- | --------------------- |
+| ($w_5$)     | ($\delta_3 \times a_1$) |
+| ($w_6$)     | ($\delta_3 \times a_2$) |
+| ($w_1$)     | ($\delta_1 \times x_1$) |
+| ($w_2$)     | ($\delta_1 \times x_2$) |
+| ($w_3$)     | ($\delta_2 \times x_3$) |
+| ($w_4$)     | ($\delta_2 \times x_4$) |
+| ($b_3$)     | ($\delta_3$)            |
+| ($b_1$)     | ($\delta_1$)            |
+| ($b_2$)     | ($\delta_2$)            |
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-## **18. Why Backpropagation is Needed**
-
-* Output weights are easy to update
-* Hidden layer weights are **indirectly related to loss**
-
-👉 Use **Chain Rule**
-
----
-
-## **19. Chain Rule (Core Idea)**
-
-If:
-[
-z = f(y), \quad y = g(x)
-]
-
-Then:
-[
-\frac{dz}{dx} = \frac{dz}{dy} \cdot \frac{dy}{dx}
-]
-
-Backpropagation applies this **layer by layer**, from output to input.
-
----
-
-## **20. Backpropagation**
-
-### **What it does**
-
-* Computes gradients efficiently
-* Propagates error backward
-* Updates all weights
-
-### **Why the name**
-
-> Backward propagation of error
-
----
-
-## **21. Weight Update using Backpropagation**
-
-For any weight:
-[
-w \leftarrow w - \eta \frac{\partial L}{\partial w}
-]
-
-Biases are updated **the same way**.
-
----
-
-## **22. Final Big Picture**
-
-* LTUs → Artificial neurons
-* Perceptron → Learning introduced
-* MLP → Non-linear learning
-* Activation functions → Expressiveness
-* Backpropagation → Efficient training
-* Gradient descent → Optimization
-* Deep learning → Many layers, powerful models
-
---- -->
