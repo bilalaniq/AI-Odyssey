@@ -403,13 +403,13 @@ In short, **gradient descent is how neural networks learn** by continuously adju
 For each neuron (j):
 
 1. Compute the weighted sum:
-   $$
-   z_j = \sum_i w_{i,j} a_i + b_j
-   $$
+$$
+z_j = \sum_i w_{i,j} a_i + b_j
+$$
 2. Apply the activation function:
-   $$
-   a_j = g_j(z_j)
-   $$
+$$
+a_j = g_j(z_j)
+$$
 
 * ($a_i$) = input from previous layer
 * ($w_{i,j}$) = weight from neuron (i) to (j)
@@ -425,17 +425,17 @@ Compute the **loss** (L) based on predicted outputs and targets.
 For a neuron (k) in the output layer:
 
 1. Compute the **error term**:
-   $$
-   \delta_k = \frac{\partial L}{\partial a_k} \cdot g'_k(z_k)
-   $$
+$$
+\delta_k = \frac{\partial L}{\partial a_k} \cdot g'_k(z_k)
+$$
 2. Gradient of loss w.r.t weight (w_{j,k}):
-   $$
-   \frac{\partial L}{\partial w_{j,k}} = \delta_k \cdot a_j
-   $$
+$$
+\frac{\partial L}{\partial w_{j,k}} = \delta_k \cdot a_j
+$$
 3. Gradient of loss w.r.t bias (b_k):
-   $$
-   \frac{\partial L}{\partial b_k} = \delta_k
-   $$
+$$
+\frac{\partial L}{\partial b_k} = \delta_k
+$$
 
 ---
 
@@ -444,21 +444,21 @@ For a neuron (k) in the output layer:
 For a hidden neuron (j):
 
 1. Compute error term using **backpropagated errors** from next layer:
-   $$
-   \delta_j = g'*j(z_j) \sum*{k} w_{j,k} \delta_k
-   $$
+$$
+\delta_j = g'*j(z_j) \sum*{k} w_{j,k} \delta_k
+$$
 
 * Sum is over all neurons (k) in the next layer connected to (j).
 
 2. Gradient of loss w.r.t weight (w_{i,j}):
-   $$
-   \frac{\partial L}{\partial w_{i,j}} = \delta_j \cdot a_i
-   $$
+$$
+\frac{\partial L}{\partial w_{i,j}} = \delta_j \cdot a_i
+$$
 
 3. Gradient w.r.t bias (b_j):
-   $$
-   \frac{\partial L}{\partial b_j} = \delta_j
-   $$
+$$
+\frac{\partial L}{\partial b_j} = \delta_j
+$$
 
 ---
 
