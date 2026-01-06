@@ -24,7 +24,6 @@ Example:
     - [**AND Gate using LTU**](#and-gate-using-ltu)
   - [**Why LTUs were important**](#why-ltus-were-important)
   - [**Birth of Learning: The Perceptron (1957)**](#birth-of-learning-the-perceptron-1957)
-    - [**Output**](#output)
   - [**What does the Perceptron learning rule do?**](#what-does-the-perceptron-learning-rule-do)
   - [**Perceptron as a Linear Classifier**](#perceptron-as-a-linear-classifier)
   - [**Feed-Forward Network of Perceptrons**](#feed-forward-network-of-perceptrons)
@@ -35,9 +34,7 @@ Example:
   - [**Training a Neural Network**](#training-a-neural-network)
   - [**Loss**](#loss)
   - [**Gradient Descent**](#gradient-descent)
-  - [**Backpropagation**](#backpropagation)
-- [Goal:](#goal)
-- [Intuition recap:](#intuition-recap)
+    - [**Backpropagation**](#backpropagation)
 
 
 
@@ -162,7 +159,7 @@ So now, the model could **learn from data**.
 
 A perceptron is an **LTU with learning**.
 
-### **Output**
+**Output**
 
 $$
 o = \text{step}\left(\sum_i w_i x_i + b\right)
@@ -391,7 +388,7 @@ In short, **gradient descent is how neural networks learn** by continuously adju
 
 
 
-## **Backpropagation**
+### **Backpropagation**
 
 **Backpropagation** (short for **backward propagation of errors**) is an algorithm used to **train neural networks**. Its main goal is to **compute the gradient of the loss function with respect to each weight and bias** in the network.
 
@@ -400,13 +397,9 @@ In short, **gradient descent is how neural networks learn** by continuously adju
 
 ---
 
-we will understand it using an example 
+we will understand Backpropagation and Gradient Descent using an example 
 
 <img src="../img/Backpropagation_exmp.png" width="900">
-
-
-
-
 
 **Setup — Your network equations**:
 
@@ -424,7 +417,7 @@ $$
 
 ---
 
-# Goal:
+**Goal**:
 
 We want to compute the gradient of loss (L) w.r.t. **each weight**, i.e., ($\frac{\partial L}{\partial w_i}$) for ($i=1, \ldots, 6$), to update the weights to minimize the loss.
 
